@@ -117,6 +117,41 @@ bool RGB::SetBg_B(short t_b)
     return true;
 }
 
+char RGB::Get_Character()
+{
+  return m_character;
+}
+
+short RGB::GetFg_R()
+{
+  return m_fg_r;
+}
+
+short RGB::GetFg_G()
+{
+  return m_fg_g;
+}
+
+short RGB::GetFg_B()
+{
+  return m_fg_b;
+} 
+
+short RGB::GetBg_R()
+{
+  return m_bg_r;
+}
+
+short RGB::GetBg_G()
+{
+  return m_bg_g;
+}
+
+short RGB::GetBg_B()
+{
+  return m_bg_b;
+}
+
 bool RGB::CheckValues()
 {
     if(m_character > 127  || m_character < 0

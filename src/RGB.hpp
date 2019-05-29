@@ -36,6 +36,16 @@ public:
   bool SetBg_R(short t_r);
   bool SetBg_G(short t_g);
   bool SetBg_B(short t_b);
+
+  char Get_Character();
+  
+  short GetFg_R();
+  short GetFg_G();
+  short GetFg_B();
+
+  short GetBg_R();
+  short GetBg_G();
+  short GetBg_B();
   
   bool CheckValues();
   void ResetValues();

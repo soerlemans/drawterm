@@ -51,6 +51,7 @@ public:
 //do not use static for this that means that g_cursor will be ctor and dtor multiple times due
 //to the variable being static to where it was included so it only allows for multiple definitions
 //by avoiding name clashes of seperate variables with the same name by tying them down to their
-//own file scope instead of referring to the same variable like extern would
+//own file scope instead of referring to the same variable like extern would this doesnt really matter
+//cause all the private members are static but it would if they werent
 
 #endif // CURSOR_H

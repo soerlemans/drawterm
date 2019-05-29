@@ -40,7 +40,8 @@ void Loop()
     for(int keypress {0}; keypress != ERR && keypress != 'q'; keypress = getch())
     {
         DrawPromptLine(stdscr);
-        DrawPrompt();
+        DrawPrompt(stdscr);
+	//	DrawPromptPalette(stdscr);
 
         MovementHandle(keypress);
         ScreenHandle(keypress);
