@@ -34,8 +34,13 @@ void keypad_off()
 void color_on(){
 
     if(has_colors()){
-        if(start_color() == ERR)
-            throw RT_Error{"ncurses colors failed to initialize"};
+
+      if(!can_change_color())
+	 throw RT_Error{"terminal doesnt support changing of colors"};
+      
+      if(start_color() == ERR)
+	throw RT_Error{"ncurses colors failed to initialize"};
+
     }else
         throw RT_Error{"terminal doesnt support ncurses color"};
 }

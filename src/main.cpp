@@ -39,43 +39,45 @@ void Loop()
     //give these their own seperate functions
     for(int keypress {0}; keypress != ERR && keypress != 'q'; keypress = getch())
     {
-        DrawPromptLine(stdscr);
-        DrawPrompt(stdscr);
-	//	DrawPromptPalette(stdscr);
+      DrawPromptLine(stdscr);
+      DrawPrompt(stdscr);
 
-        MovementHandle(keypress);
-        ScreenHandle(keypress);
-        printw("%d", keypress);
+      MovementHandle(keypress);
+      ScreenHandle(keypress);
 
-        wrefresh(stdscr);
+      wrefresh(stdscr);
     }
 }
+
+#ifndef WINDOWS
 
 //This is an animation program
 //that makes animations with ANSI Escape codes
 int main()
 {
-    #ifndef WINDOWS
-
-    try{
-        Init();
-    }catch(RT_Error except)
+  try{
+    Init();
+  }catch(RT_Error except)
     {
-        std::cerr << "exception: " << except.what() << "\nterminating..." << std::endl;
-        return 1;
+      std::cerr << "exception: " << except.what() << "\nterminating..." << std::endl;
+      return 1;
     }
-
-    Loop();
-
-    endwin();
-    return 0;
-
-    #else
-
-    // if it is windows than quite for now
-    std::cerr << "Windows does not support ANSI Escape codes.\n"
-              << "You will have to wait for the windows terminal implementation" << std::endl;
-    return 2;
-
-    #endif //WINDOWS
+  
+  Loop();
+  
+  endwin();
+  return 0;
 }
+
+#else
+
+//remove this later cause Init() covers this
+int main()
+{
+
+  // if it is windows than quite for now
+  std::cerr << "Windows does not support ANSI Escape codes.\n" << "You will have to wait for the windows terminal implementation" << std::endl;
+  return 2;
+}
+
+#endif //WINDOWS

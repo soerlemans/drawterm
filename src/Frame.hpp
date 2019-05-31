@@ -3,9 +3,6 @@
 
 #include "Cursor.hpp"
 
-#include <vector>
-#include <iostream>
-
 template<typename Type>
 using Matrix = std::vector<std::vector<Type>>;
 

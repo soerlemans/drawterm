@@ -6,7 +6,7 @@ int Cursor::m_max_y {getmaxy(stdscr)-2};
 int Cursor::m_cursor_x {getcurx(stdscr)};
 int Cursor::m_cursor_y {getcury(stdscr)};
 
-unsigned Cursor::m_palette_pos {0};
+short Cursor::m_pair_pos {1};
 
 void Cursor::Update() noexcept
 {
@@ -52,16 +52,6 @@ int Cursor::GetPrompty() noexcept
     return m_max_y+1;
 }
 
-void Cursor::SetPalette_Pos(unsigned t_palette_pos) noexcept
-{
-  m_palette_pos = t_palette_pos;
-}
-
-unsigned Cursor::GetPalette_Pos() noexcept
-{
-  return m_palette_pos;
-}
-
 int Cursor::Boundsx(int t_cursor_x) noexcept
 {
     if(t_cursor_x < 0) t_cursor_x = 0;
@@ -78,18 +68,30 @@ int Cursor::Boundsy(int t_cursor_y) noexcept
     return t_cursor_y;
 }
 
+bool Cursor::SetPair_Pos(short t_pair_pos) noexcept
+{
+  if( t_pair_pos < 1 || t_pair_pos > int{COLOR_PAIRS - 1}) return false;
+  
+  m_pair_pos = t_pair_pos;
+
+  return true;
+}
+
+short Cursor::GetPair_Pos() noexcept
+{
+  return m_pair_pos;
+}
+
 void Cursor::Movex(WINDOW* t_win, int t_cursor_x) noexcept
 {
     m_cursor_x = Boundsx(t_cursor_x);
     wmove(t_win, m_cursor_y, m_cursor_x);
-    wrefresh(t_win);
 }
 
 void Cursor::Movey(WINDOW* t_win, int t_cursor_y) noexcept
 {
     m_cursor_y = Boundsy(t_cursor_y);
     wmove(t_win, m_cursor_y, m_cursor_x);
-    wrefresh(t_win);
 }
 
 void Cursor::Move(WINDOW* t_win, int t_cursor_x, int t_cursor_y) noexcept
@@ -98,7 +100,6 @@ void Cursor::Move(WINDOW* t_win, int t_cursor_x, int t_cursor_y) noexcept
     m_cursor_y = Boundsy(t_cursor_y);
 
     wmove(t_win, m_cursor_y, m_cursor_x);
-    wrefresh(t_win);
 }
 
 void Cursor::MoveLeft(WINDOW* t_win, int t_amount) noexcept
@@ -121,25 +122,31 @@ void Cursor::MoveDown(WINDOW* t_win, int t_amount) noexcept
     Movey(t_win, m_cursor_y+t_amount);
 }
 
-
-//goes to the prompt area what is normally out of bounds
 void Cursor::MovePrompt(WINDOW* t_win, int t_cursor_x) noexcept
+//goes to the prompt area what is normally out of bounds
 {
     m_cursor_x = t_cursor_x;
     m_cursor_y = m_max_y+1;
 
-    wmove(t_win, m_max_y+1, t_cursor_x);
-    wrefresh(t_win);
+    wmove(t_win, m_cursor_y, m_cursor_x);
 }
 
-//goes one place up the prompt are to draw the line normally out of bounds
+void Cursor::MovePalette(WINDOW* t_win, int t_cursor_x) noexcept
+//goes from right to left and doesnt refresh
+{
+  m_cursor_x = m_max_x - ++t_cursor_x;
+  m_cursor_y = m_max_y+1;
+
+  wmove(t_win, m_cursor_y, m_cursor_x);
+}
+  
 void Cursor::MovePromptLine(WINDOW* t_win)
+//goes one place up the prompt are to draw the line normally out of bounds
 {
     m_cursor_x = 0;
     m_cursor_y = m_max_y;
 
     wmove(t_win, m_max_y, m_cursor_x);
-    wrefresh(t_win);
 }
 
 Cursor g_cursor;

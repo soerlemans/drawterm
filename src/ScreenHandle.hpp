@@ -4,8 +4,12 @@
 #include "Prompt.hpp"
 #include "Video.hpp"
 
-extern void ChangeCursorColor();
-extern void ChangePalette_Pos(int t_palette_pos);
+#include <cmath>
+#include <sstream>
+
+extern void ChangeColor();
+extern void ChangeCharacter();
+extern void ChangePair_Pos();
 
 extern void ScreenHandle(int t_keypress);
 

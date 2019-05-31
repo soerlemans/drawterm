@@ -3,7 +3,6 @@
 
 #include "RGB.hpp"
 
-#include <ncurses.h>
 #include <tuple>
 #include <iostream>
 
@@ -13,7 +12,8 @@ class Cursor
 private:
   static int m_max_x, m_max_y, m_prompt_y;
   static int m_cursor_x, m_cursor_y;       //or else you can scroll out the box
-  static unsigned m_palette_pos;
+
+  static short m_pair_pos;              //the current pair where you are at
   
 public:
   void Update() noexcept; //updates all the vals
@@ -28,9 +28,9 @@ public:
 
   int GetPrompty() noexcept;
 
-  void SetPalette_Pos(unsigned t_palette_pos) noexcept;
-  unsigned GetPalette_Pos() noexcept;
- 
+  bool  SetPair_Pos(short t_pair_pos) noexcept;
+  short GetPair_Pos() noexcept;
+  
   int Boundsx(int t_cursor_x) noexcept;
   int Boundsy(int t_cursor_y) noexcept;
 
@@ -45,6 +45,8 @@ public:
   void MoveRight(WINDOW* t_win = stdscr, int t_amount = 1) noexcept;
   
   void MovePrompt(WINDOW* t_win = stdscr, int t_cursor_x = 0) noexcept; //move to the prompt area
+  void MovePalette(WINDOW* t_win = stdscr, int t_cursor_x = 0) noexcept;
+		   
   void MovePromptLine(WINDOW* t_win = stdscr); //move to line above the prompt area
 
 } extern g_cursor;

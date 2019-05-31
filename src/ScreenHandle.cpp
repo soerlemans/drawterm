@@ -2,51 +2,55 @@
 
 //handles all the keybinds that change the state of the screen
 
-//these only exist in this cpp
-
-void ChangeCursorColor()
+void ChangeColor()
 {
-    DrawPromptMessage(stdscr, "Insert the RGB values between 0-1000: PRESS ENTER");
-
-    short color_r = InputPrompt_Int(stdscr, "Insert R:", 4, 0, 1000);
-    short color_g = InputPrompt_Int(stdscr, "Insert G:", 4, 0, 1000);
-    short color_b = InputPrompt_Int(stdscr, "Insert B:", 4, 0, 1000);
-
-    RGB color;
-    
-    color.Set_R(color_r);
-    color.Set_G(color_g);
-    color.Set_B(color_b);
-    
-    g_palette[g_cursor.GetPalette_Pos()] = color;
+  short color_id = InputPrompt_Int(stdscr, "Insert color ID:", std::log(COLORS)+1, 0, COLORS);
+  
+  short color_r = InputPrompt_Int(stdscr, "Insert R:", 3, 0, 999);
+  short color_g = InputPrompt_Int(stdscr, "Insert G:", 3, 0, 999);
+  short color_b = InputPrompt_Int(stdscr, "Insert B:", 3, 0, 999);
+  
+  init_color(color_id, color_r, color_g, color_b);
 }
 
-void ChangePalette_Pos(int t_palette_pos)
+void ChangeCharacter()
 {
-  if(t_palette_pos >= 0 && t_palette_pos <= 9)
-    g_cursor.SetPalette_Pos(t_palette_pos);
+  auto str = InputPrompt_Str(stdscr, "Insert character:", 1);
 
-  DrawPrompt(stdscr, "Changed Palette_Pos");
-  wrefresh(stdscr);
+  //  no fucking clue why this gives an error TODO
+  //  g_character = str.front()
+}
+
+void ChangePair_Pos()
+{
+  std::stringstream sstream;
+
+  sstream << "Insert number in between 0-";
+  sstream << COLORS;
+  sstream << ": PRESS ENTER"; 
+
+  DrawPromptMessage(stdscr, sstream.str());
+
+  //very unlikely for terminals to support over 256 colors
+  auto pair_pos {InputPrompt_Int(stdscr, "Insert:", std::log(COLORS)+1, 0, COLORS)};
+  g_cursor.SetPair_Pos(pair_pos);
+  
 }
 
 void ScreenHandle(int t_keypress)
 {
     switch(t_keypress)
     {
-      //reset selected color palette
-    case '0':
+    case 'c':
+      ChangeColor();
       break;
 
-    case 99:
-        ChangeCursorColor();
-        break;
-
-    case 10:
+    case 'x':
+      ChangeCharacter();
       break;
-
-    default:
-      ChangePalette_Pos(int{t_keypress - '0'});
+	
+    case 'z':
+      ChangePair_Pos();
       break;
     }
     

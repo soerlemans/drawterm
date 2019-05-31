@@ -31,4 +31,6 @@ public:
   RGB operator=(const RGB& t_rhs);
 };
 
+extern char g_character;
+
 #endif // RGB_H

@@ -32,36 +32,6 @@ void DrawPromptLine(WINDOW* t_win)
     g_cursor.Move(t_win, old_x, old_y);
 }
 
-void DrawPromptPalette(WINDOW* t_win)
-{
-  auto[old_x, old_y] = g_cursor.GetCurxy();
-
-  std::size_t index {0};
-  
-  for(; index < g_palette.size(); index++)
-    {
-      g_cursor.MovePrompt(t_win, g_cursor.GetMaxx()-(index+1));
-
-      auto& rgb = g_palette[index];
-      
-      //      init_color(COLOR_CYAN, rgb.GetFg_R(), rgb.GetFg_B(), rgb.GetFg_B());
-      //      init_color(COLOR_MAGENTA, rgb.GetBg_R(), rgb.GetBg_B(), rgb.GetBg_B());
-
-      //      init_pair(index, COLOR_CYAN, COLOR_MAGENTA);
-
-      //      wattron(t_win, COLOR_PAIR(index));
-      //      waddch(t_win, rgb.Get_Character());
-      //      wattroff(t_win, COLOR_PAIR(index));
-      
-    }
-  
-  g_cursor.MovePrompt(t_win, g_cursor.GetMaxx()-(index+1));
-  //  waddch(t_win, char{index+'0'});
-  
-  
-  g_cursor.Move(t_win, old_x, old_y);
-}
-
 void DrawPromptMessage(WINDOW* t_win, const std::string& t_text, int t_conformation)
 {
     auto[old_x, old_y] = g_cursor.GetCurxy();
@@ -70,11 +40,11 @@ void DrawPromptMessage(WINDOW* t_win, const std::string& t_text, int t_conformat
 
     g_cursor.MovePrompt(t_win);
     printw("%s", t_text.c_str());
-    wrefresh(t_win);
 
     for(int character {'0'}; character != ERR && character != t_conformation; character = getch()){
         g_cursor.MovePrompt(t_win, t_text.size());
     }
+
     g_cursor.Move(t_win, old_x, old_y);
 }
 
@@ -133,7 +103,7 @@ int InputPrompt_Int(WINDOW* t_win, const std::string& t_text, int input_lenght, 
 	      skip = true;
 	  }
 	
-	if(!skip)
+	if(!skip && value_str.front() != '\n')
 	  value_int = std::stoi(value_str);
     }
   return value_int;
