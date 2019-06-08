@@ -1,9 +1,10 @@
-CXXFLAGS = -std=c++17 -c -Wall
+CXXFLAGS = -std=c++17 -c -Wall -Wextra
 LIBS = -lncurses
 
 OBJECTS = main.o MovementHandle.o Cursor.o ScreenHandle.o \
 	  Prompt.o NcursesOptions.o RT_Error.o Video.o Frame.o RGB.o
 
+#some thing is wrong with m_video object that does not exist anymore
 #-rules--
 
 drawterm : $(OBJECTS)
@@ -15,10 +16,10 @@ main.o : main.cpp MovementHandle.o ScreenHandle.o
 MovementHandle.o : MovementHandle.cpp MovementHandle.hpp Cursor.o
 	g++ $(CXXFLAGS) MovementHandle.cpp
 
-Cursor.o : Cursor.cpp Cursor.hpp RGB.o
+Cursor.o : Cursor.cpp Cursor.hpp Video.o
 	g++ $(CXXFLAGS) Cursor.cpp
 
-ScreenHandle.o : ScreenHandle.cpp ScreenHandle.hpp Prompt.o Video.o
+ScreenHandle.o : ScreenHandle.cpp ScreenHandle.hpp Prompt.o
 	g++ $(CXXFLAGS) ScreenHandle.cpp 
 
 Prompt.o : Prompt.cpp Prompt.hpp Cursor.o NcursesOptions.o
@@ -33,7 +34,7 @@ RT_Error.o : RT_Error.cpp RT_Error.hpp
 Video.o : Video.cpp Video.hpp Frame.o
 	g++ $(CXXFLAGS) Video.cpp 
 
-Frame.o : Frame.cpp Frame.hpp Cursor.o
+Frame.o : Frame.cpp Frame.hpp RGB.o
 	g++ $(CXXFLAGS) Frame.cpp 
 
 RGB.o : RGB.cpp RGB.hpp 

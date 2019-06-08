@@ -1,9 +1,6 @@
 #include "MovementHandle.hpp"
 #include "ScreenHandle.hpp"
 
-#include <iostream>
-#include <stdexcept>
-
 #ifdef __linux__
 #include <unistd.h>
 #endif
@@ -20,31 +17,35 @@ void Init()
 
     try{
 
-    color_on();
-    cbreak_on();
-    echo_off();
-    keypad_on();
+      color_on();
+      cbreak_on();
+      echo_off();
+      keypad_on();
 
     //tell them where it came from
     }catch(RT_Error catched){
         throw RT_Error{catched += " Init()"};
     }
+    //update the file that takes care of the cursor
+    Update();
 }
 
 void Loop()
 {
-    //update the wrapper class for the cursor
-    g_cursor.Update();
-
-    //give these their own seperate functions
     for(int keypress {0}; keypress != ERR && keypress != 'q'; keypress = getch())
     {
-      DrawPromptLine(stdscr);
-      DrawPrompt(stdscr);
-
       MovementHandle(keypress);
       ScreenHandle(keypress);
 
+      auto[old_x, old_y] = GetCurxy();
+
+      DrawPromptLine();
+      DrawPrompt();
+      DrawPromptBrush();
+      
+      Move(stdscr, old_x, old_y);
+      
+      //      printw("%d", keypress);
       wrefresh(stdscr);
     }
 }
@@ -74,7 +75,6 @@ int main()
 //remove this later cause Init() covers this
 int main()
 {
-
   // if it is windows than quite for now
   std::cerr << "Windows does not support ANSI Escape codes.\n" << "You will have to wait for the windows terminal implementation" << std::endl;
   return 2;

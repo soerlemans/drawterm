@@ -3,20 +3,19 @@
 
 #include "Frame.hpp"
 
-class Video
-{
-    private:
-        std::vector<Frame> m_video;
+#include <algorithm>
 
-    public:
-        Video();
+extern void GotoFrame(std::size_t t_pos);
 
-        Frame& operator[](unsigned t_index) noexcept;
+extern void NextFrame(std::size_t t_amount = 1);
+extern void Previousrame(std::size_t _amount = 1);
 
-        ~Video();
+extern void Setwh(std::size_t t_w, std::size_t t_h);
+extern auto Getwh() -> std::tuple<std::size_t, std::size_t>;
 
-} extern g_video;
+extern void SetVideoLength(std::size_t t_length);
+extern int  GetVideoLength();
 
-std::ostream& operator<<(std::ostream& t_os, Video t_video);
+extern void DrawCurrentFrame(int t_screen_w, int t_screen_h);
 
 #endif // VIDEO_H

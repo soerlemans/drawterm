@@ -9,7 +9,6 @@
 class RGB
 {
 private:
-  //defining one color
   short m_r {0},
     m_g {0},
     m_b {0};
@@ -18,8 +17,6 @@ public:
 
   RGB();
   RGB(const RGB& t_rhs);
-  
-  bool Set_Character(char t_character);
   
   bool Set_R(short t_r);
   bool Set_G(short t_g);

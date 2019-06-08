@@ -67,4 +67,3 @@ RGB RGB::operator=(const RGB& t_rhs)
   return *this;
 }
 
-char g_character {'0'};
