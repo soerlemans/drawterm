@@ -126,9 +126,16 @@ int InputPrompt_Int(WINDOW* t_win, const std::string& t_text, int input_lenght, 
   return value_int;
 }
 
-/*
-int InputPrompt_Int(WINDOW* t_win, const std::string& t_text, int t_min, int t_max)
+//handles the most used use case
+int InputPrompt_Int(WINDOW* t_win, std::string t_text, int t_min, int t_max)
 {
-  return InputPrompt_Int(t_win, t_text, std::log(t_max)+1, t_min, t_max);
+  auto input_length {std::log(t_max)+1};
+
+  t_text += std::to_string(t_min);
+  t_text += "-";
+  t_text += std::to_string(t_max);
+  t_text += ":";
+  
+  return InputPrompt_Int(t_win, t_text, input_length, t_min, t_max);
 }
-*/
+

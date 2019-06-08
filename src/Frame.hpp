@@ -28,9 +28,13 @@ public:
 
   void Setwh(std::size_t t_w, std::size_t t_h);
   
-  std::size_t Getw() const noexcept;
+  std::size_t Getw() const;
   std::size_t Geth() const noexcept;
-  std::tuple<std::size_t,std::size_t> Getwh() const noexcept;
+  auto Getwh() const ->std::tuple<std::size_t,std::size_t>;
+  
+  std::size_t GetMaxw() const;
+  std::size_t GetMaxh() const noexcept;
+  auto GetMaxwh() const ->std::tuple<std::size_t, std::size_t>;
   
   std::vector<Character>& operator[](unsigned t_index);
   

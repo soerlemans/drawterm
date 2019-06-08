@@ -19,7 +19,8 @@ extern void DrawPromptMessage(WINDOW* t_win = stdscr, const std::string& t_text 
 
 extern std::string InputPrompt_Str(WINDOW* t_win = stdscr, const std::string& t_text = "prompt:", int t_input_length = 4);
 
-extern int InputPrompt_Int(WINDOW* t_win = stdscr, const std::string& t_text = "Insert 0-1000:", int t_input_lenght = 4, int t_min = 0, int t_max = 1000);
-//extern int InputPrompt_Int(WINDOW* t_win = stdscr, const std::string& t_text = "Insert 0-1000:", int t_min = 0, int t_max = 1000);
+//giving them default parameters makes them ambiguos
+extern int InputPrompt_Int(WINDOW* t_win, const std::string& t_text, int t_input_lenght, int t_min, int t_max);
+extern int InputPrompt_Int(WINDOW* t_win, std::string t_text, int t_min, int t_max);
 
 #endif // PROMPT_H

@@ -27,21 +27,21 @@ std::string GetCOLORSRange()
 
 void CreatePair()
 {
-  int pair_pos {InputPrompt_Int(stdscr, "Insert Color Pair " + GetCOLOR_PAIRSRange(), std::log10(COLOR_PAIRS)+1, 0, COLOR_PAIRS)};
+  int pair_pos {InputPrompt_Int(stdscr, "Insert Color Pair ", 0, COLOR_PAIRS)};
     
-  int color_id_fg = InputPrompt_Int(stdscr, "Insert color ID FG " + GetCOLORSRange(), std::log10(COLORS), 0, COLORS);
-  int color_id_bg = InputPrompt_Int(stdscr, "Insert color ID BG " + GetCOLORSRange(), std::log10(COLORS), 0, COLORS);
+  int color_id_fg = InputPrompt_Int(stdscr, "Insert color ID FG ", 0, COLORS);
+  int color_id_bg = InputPrompt_Int(stdscr, "Insert color ID BG ", 0, COLORS);
 
   init_pair(pair_pos, color_id_fg, color_id_bg);
 }
 
 void ChangeColor()
 {
-  int color_id = InputPrompt_Int(stdscr, "Insert color ID " + GetCOLORSRange(), std::log10(COLORS), 0, COLORS);
+  int color_id = InputPrompt_Int(stdscr, "Insert color ID ", 0, COLORS);
   
-  int color_r = InputPrompt_Int(stdscr, "Insert R 0-999:", 3, 0, 999);
-  int color_g = InputPrompt_Int(stdscr, "Insert G 0-999:", 3, 0, 999);
-  int color_b = InputPrompt_Int(stdscr, "Insert B 0-999:", 3, 0, 999);
+  int color_r = InputPrompt_Int(stdscr, "Insert R ", 0, 999);
+  int color_g = InputPrompt_Int(stdscr, "Insert G ", 0, 999);
+  int color_b = InputPrompt_Int(stdscr, "Insert B ", 0, 999);
   
   init_color(color_id, color_r, color_g, color_b);
 }
@@ -55,14 +55,24 @@ void ChangeCharacter()
 
 void ChangePair_Pos()
 {
-  int pair_pos {InputPrompt_Int(stdscr, "Insert " + GetCOLOR_PAIRSRange(), std::log10(COLOR_PAIRS)+1, 0, COLOR_PAIRS)};
+  int pair_pos {InputPrompt_Int(stdscr, "Insert ", 0, COLOR_PAIRS)};
 
   SetPair_Pos(pair_pos);
 }
 
+
 void ChangeCanvasSize()
 { //set the canvas size
 
+  //gives segmentation fault
+  auto[max_width, max_height] = GetCanvasMaxwh();
+
+  std::cout << "debug cout...\n";  
+
+  int width {InputPrompt_Int(stdscr, "Insert width ", 0, max_width)};
+  int height {InputPrompt_Int(stdscr, "Insert height ", 0, max_height)};
+
+  SetCanvaswh(width, height);
 }
 
 void ScreenHandle(int t_keypress)
@@ -79,6 +89,10 @@ void ScreenHandle(int t_keypress)
 	
     case 'z':
       ChangePair_Pos();
+      break;
+
+    case 'a':
+      ChangeCanvasSize();
       break;
     }
     

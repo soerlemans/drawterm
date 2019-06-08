@@ -47,19 +47,22 @@ void PreviousFrame(std::size_t t_amount)
 
 void SetCanvaswh(std::size_t t_w, std::size_t t_h)
 {
-  auto function {
-		 [&](Frame& t_frame)
+  auto function {[&](Frame& t_frame)
 		 {
-		   
-		 }
-  };
+		   t_frame.Setwh(t_w, t_h);
+		 }};
   
   std::for_each(g_video.begin(), g_video.end(), function);
 }
 
 auto GetCanvaswh() ->std::tuple<std::size_t, std::size_t>
 {
-  return {g_video[0].Getw(), g_video[0].Geth()};
+  return g_video[0].Getwh();
+}
+
+auto GetCanvasMaxwh() ->std::tuple<std::size_t, std::size_t>
+{
+  return g_video[0].GetMaxwh();
 }
 
 void SetVideoLength(std::size_t t_length)

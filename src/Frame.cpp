@@ -19,7 +19,7 @@ void Frame::Setwh(std::size_t t_w, std::size_t t_h)
   m_matrix.resize(t_h);
 }
 
-std::size_t Frame::Getw() const noexcept
+std::size_t Frame::Getw() const
 {
   return m_matrix.at(0).size();
 }
@@ -29,9 +29,24 @@ std::size_t Frame::Geth() const noexcept
   return m_matrix.size();
 }
 
-auto Frame::Getwh() const noexcept ->std::tuple<std::size_t, std::size_t>
+auto Frame::Getwh() const ->std::tuple<std::size_t, std::size_t>
 {
   return {Getw(), Geth()};
+}
+
+std::size_t Frame::GetMaxw() const
+{
+  return m_matrix.at(0).max_size();
+}
+
+std::size_t Frame::GetMaxh() const noexcept
+{
+  return m_matrix.max_size();
+}
+
+auto Frame::GetMaxwh() const ->std::tuple<std::size_t, std::size_t>
+{
+  return {GetMaxw(), GetMaxh()};
 }
 
 std::vector<Character>& Frame::operator[](unsigned t_index)
