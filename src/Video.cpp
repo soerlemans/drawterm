@@ -7,7 +7,7 @@ std::size_t g_video_pos {0};
 std::size_t g_offset_x {0}, g_offset_y {0};
 
 //the video is just a range of frames
-std::vector<Frame> g_video;
+std::vector<Frame> g_video(1);
 
 //if anything is changed then redraw the current frame
 bool g_changed {false};
