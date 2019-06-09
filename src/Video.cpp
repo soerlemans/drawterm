@@ -14,7 +14,7 @@ bool g_changed {false};
 
 void GotoFrame(std::size_t t_pos)
 { 
-  auto video_max_range {g_video.size()-1};
+  std::size_t video_max_range {g_video.size()-1};
 
   g_video_pos = (t_pos > video_max_range) ?
     video_max_range :
@@ -35,7 +35,7 @@ void NextFrame(std::size_t t_amount)
 
 void PreviousFrame(std::size_t t_amount)
 {
-  auto video_max_range {g_video.size()-1};
+  std::size_t video_max_range {g_video.size()-1};
 
   g_video_pos -= t_amount;
 
@@ -47,10 +47,11 @@ void PreviousFrame(std::size_t t_amount)
 
 void SetCanvaswh(std::size_t t_w, std::size_t t_h)
 {
-  auto function {[&](Frame& t_frame)
+  //using auto and {} makes initializer lists
+  auto function = [&](Frame& t_frame)
 		 {
 		   t_frame.Setwh(t_w, t_h);
-		 }};
+		 };
   
   std::for_each(g_video.begin(), g_video.end(), function);
 }
