@@ -48,7 +48,7 @@ void ChangeColor()
 
 void ChangeCharacter()
 {
-  auto str = InputPrompt_Str(stdscr, "Insert character from keyboard:", 1);
+  auto str {InputPrompt_Str(stdscr, "Insert character from keyboard:", 1)};
 
   SetCharacter(str.front());
 }
@@ -60,19 +60,68 @@ void ChangePair_Pos()
   SetPair_Pos(pair_pos);
 }
 
+//helper function for ChangeVideoLength()
+void divide_length(double& t_cur_length, std::size_t& t_max_length_formatted)
+{
+  t_max_length_formatted /= 60;
+  t_cur_length /=60;
+}
+
+void ChangeVideoLength()
+{
+  double cur_length{GetVideoLength()};
+
+  char for_char{InputPrompt_Char(stdscr, "Insert format f(rames),s(econds),m(inutes),h(ours):", "fsmh")};
+
+  std::size_t max_length_in_frame {5184000};              //amount of frames in 24 hours
+  std::size_t max_length_formatted {max_length_in_frame}; //the max formatted length
+  
+  switch(for_char)
+    {
+    case 'h':
+      divide_length(cur_length, max_length_formatted);
+      [[fallthrough]];
+      
+    case 'm':
+      divide_length(cur_length, max_length_formatted);
+      [[fallthrough]];
+      
+    case 's':
+      divide_length(cur_length, max_length_formatted);
+      break;
+
+    case 'f':
+      break;
+
+    default:
+      throw RT_Error("unrecognised format for ChangeVideoLength() ");
+	break;
+    }
+  
+  std::stringstream ss;
+  ss << "Cur length=" << cur_length << for_char
+     << ". Insert length 0-" << max_length_formatted << for_char << ":";
+  
+  auto new_length{InputPrompt_Int(stdscr, ss.str(), std::log(max_length_in_frame)+1, 0, max_length_in_frame)};
+  SetVideoLength(new_length*max_length_in_frame/max_length_formatted);
+}
 
 void ChangeCanvasSize()
 { //set the canvas size
+  //  int width {InputPrompt_Int(stdscr, "Insert width ", 0, max_width)};
+  //  int height {InputPrompt_Int(stdscr, "Insert height ", 0, max_height)};
 
-  //gives segmentation fault
-  auto[max_width, max_height] = GetCanvasMaxwh();
+  //  SetCanvaswh(width, height);
+}
 
-  std::cout << "debug cout...\n";  
+void NextFrame()
+{
+  
+}
 
-  int width {InputPrompt_Int(stdscr, "Insert width ", 0, max_width)};
-  int height {InputPrompt_Int(stdscr, "Insert height ", 0, max_height)};
-
-  SetCanvaswh(width, height);
+void PreviousFrame()
+{
+  
 }
 
 void ScreenHandle(int t_keypress)
@@ -91,6 +140,10 @@ void ScreenHandle(int t_keypress)
       ChangePair_Pos();
       break;
 
+    case 's':
+      ChangeVideoLength();
+      break;
+      
     case 'a':
       ChangeCanvasSize();
       break;

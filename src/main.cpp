@@ -60,12 +60,22 @@ int main()
     Init();
   }catch(RT_Error except)
     {
-      std::cerr << "exception: " << except.what() << "\nterminating..." << std::endl;
-      return 1;
+      std::cerr << "somethign failed to init\n"
+		<< "exception: " << except.what()
+		<< "\nterminating..." << std::endl;
+      return 2;
     }
-  
-  Loop();
-  
+
+  //  try{
+    Loop();
+    /*  }catch(const std::exception& except)
+    {
+      std::cerr << "an exception slipped past to main()\n"
+		<< "exception:" << except.what()
+		<< "\nterminating..." << std::endl;
+      return 3;
+    }
+    */
   endwin();
   return 0;
 }
@@ -77,7 +87,7 @@ int main()
 {
   // if it is windows than quite for now
   std::cerr << "Windows does not support ANSI Escape codes.\n" << "You will have to wait for the windows terminal implementation" << std::endl;
-  return 2;
+  return 1;
 }
 
 #endif //WINDOWS

@@ -7,7 +7,7 @@ std::size_t g_video_pos {0};
 std::size_t g_offset_x {0}, g_offset_y {0};
 
 //the video is just a range of frames
-std::vector<Frame> g_video(1);
+std::vector<Frame> g_video;
 
 //if anything is changed then redraw the current frame
 bool g_changed {false};
@@ -45,35 +45,19 @@ void PreviousFrame(std::size_t t_amount)
   g_changed = true;
 }
 
-void SetCanvaswh(std::size_t t_w, std::size_t t_h)
-{
-  //using auto and {} makes initializer lists
-  auto function = [&](Frame& t_frame)
-		 {
-		   t_frame.Setwh(t_w, t_h);
-		 };
-  
-  std::for_each(g_video.begin(), g_video.end(), function);
-}
-
-auto GetCanvaswh() ->std::tuple<std::size_t, std::size_t>
-{
-  return g_video[0].Getwh();
-}
-
-auto GetCanvasMaxwh() ->std::tuple<std::size_t, std::size_t>
-{
-  return g_video[0].GetMaxwh();
-}
-
 void SetVideoLength(std::size_t t_length)
 {
   g_video.resize(t_length);
 }
 
-int GetVideoLength()
+std::size_t GetVideoLength()
 {
   return g_video.size();
+}
+
+std::size_t GetMaxVideoLength()
+{
+  return g_video.max_size();
 }
 
 void DrawCurrentFrame(int t_screen_w, int t_screen_h)

@@ -77,11 +77,15 @@ std::string InputPrompt_Str(WINDOW* t_win, const std::string& t_text, int t_inpu
       {
 	character = wgetch(t_win);
 
-	if(character == 263)
+	if(character == 263)                     //delete character
 	  {
-	    index = (index-2 < 0) ? 0 : index-2; //index may not be smaller than0
+	    index = (index-2 < 0) ? -1 : index-2; //index may not be smaller than 0 gets incrementend from -1 to 0
 	    if(index) wdelch(t_win);             //delete the character if it isnt 0
-	    else MovePrompt(t_win, t_text.size());
+	    else{
+	      MovePrompt(t_win, t_text.size()+1);
+	      wdelch(t_win);
+	      MovePrompt(t_win, t_text.size());
+	    }
 	  }
 	else
 	  input[index] = character;
@@ -95,6 +99,26 @@ std::string InputPrompt_Str(WINDOW* t_win, const std::string& t_text, int t_inpu
   Move(t_win, old_x, old_y);
 
   return input;
+}
+
+char InputPrompt_Char(WINDOW* t_win, const std::string& t_text, const std::string& t_allowed_chars)
+{
+  std::string format;
+  bool allowed{false};
+
+  while(!allowed)
+    {
+      format = InputPrompt_Str(t_win, t_text, 1);
+	
+      for(const auto& character : t_allowed_chars)
+	if(format.front() == character)
+	  {
+	    allowed = true;
+	    break;
+	  }
+    }
+  
+  return format.front();
 }
 
 int InputPrompt_Int(WINDOW* t_win, const std::string& t_text, int input_lenght, int t_min, int t_max)

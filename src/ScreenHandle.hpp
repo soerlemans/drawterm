@@ -12,6 +12,7 @@ extern std::string GetCOLORSRange();
 extern void ChangeColor();
 extern void ChangeCharacter();
 extern void ChangePair_Pos();
+extern void ChangeVideoLength();
 extern void ChangeCanvasSize();
 
 extern void ScreenHandle(int t_keypress);

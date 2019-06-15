@@ -4,6 +4,8 @@ LIBS = -lncurses
 OBJECTS = main.o MovementHandle.o Cursor.o ScreenHandle.o \
 	  Prompt.o NcursesOptions.o RT_Error.o Video.o Frame.o RGB.o
 
+#OBJECTS = *.o
+
 #some thing is wrong with m_video object that does not exist anymore
 #-rules--
 
@@ -40,7 +42,9 @@ Frame.o : Frame.cpp Frame.hpp RGB.o
 RGB.o : RGB.cpp RGB.hpp 
 	g++ $(CXXFLAGS) RGB.cpp
 
-clean :
-	rm drawterm $(OBJECTS)
+install : #install the exceutable on the system
+
+clean :   #remove all the executable and all the object files
+	rm drawterm $(wildcard *.o)
 
 

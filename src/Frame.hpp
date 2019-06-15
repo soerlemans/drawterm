@@ -5,6 +5,7 @@
 
 #include <iostream>
 #include <tuple>
+#include <algorithm>
 
 template<typename Type>
 using Matrix = std::vector<std::vector<Type>>;
@@ -20,21 +21,14 @@ using Character = std::pair<char, int>;
 class Frame
 {
 private:
-  //GetSize doesnt fail if init 1 plus
-  Matrix<Character> m_matrix {1};
-
-public:  
-  void SetPoint(std::size_t t_x, std::size_t t_y, const Character& t_color) noexcept;
+  Matrix<Character> m_matrix;
+  
+public:
+  Frame();
+  
+  void SetPoint(const std::size_t t_x, const std::size_t t_y, const Character& t_color) noexcept;
 
   void Setwh(std::size_t t_w, std::size_t t_h);
-  
-  std::size_t Getw() const;
-  std::size_t Geth() const noexcept;
-  auto Getwh() const ->std::tuple<std::size_t,std::size_t>;
-  
-  std::size_t GetMaxw() const;
-  std::size_t GetMaxh() const noexcept;
-  auto GetMaxwh() const ->std::tuple<std::size_t, std::size_t>;
   
   std::vector<Character>& operator[](unsigned t_index);
   
