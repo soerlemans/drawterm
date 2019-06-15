@@ -58,6 +58,21 @@ void DrawPromptMessage(WINDOW* t_win, const std::string& t_text, int t_conformat
   
 }
 
+//Handle the delete if InputPrompt_Str finds one
+int HandleDelete(WINDOW* t_win, int t_index, std::size_t t_textsize)
+{
+  t_index = (t_index-2 < 0) ? -1 : t_index-2; //index may not be smaller than 0 gets incrementend from -1 to 0
+  if(t_index+1){               //the t_index isnt incremented yet
+    wdelch(t_win);             //delete the character if it isnt 0
+    
+  }else{
+    MovePrompt(t_win, t_textsize+1);
+    wdelch(t_win);
+    MovePrompt(t_win, t_textsize);
+  }
+  return t_index;
+}
+
 std::string InputPrompt_Str(WINDOW* t_win, const std::string& t_text, int t_input_length)
 {
   auto[old_x, old_y] = GetCurxy();
@@ -78,15 +93,7 @@ std::string InputPrompt_Str(WINDOW* t_win, const std::string& t_text, int t_inpu
 	character = wgetch(t_win);
 
 	if(character == 263)                     //delete character
-	  {
-	    index = (index-2 < 0) ? -1 : index-2; //index may not be smaller than 0 gets incrementend from -1 to 0
-	    if(index) wdelch(t_win);             //delete the character if it isnt 0
-	    else{
-	      MovePrompt(t_win, t_text.size()+1);
-	      wdelch(t_win);
-	      MovePrompt(t_win, t_text.size());
-	    }
-	  }
+	    index = HandleDelete(t_win, index, t_text.size());
 	else
 	  input[index] = character;
       } 
