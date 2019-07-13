@@ -2,6 +2,7 @@
 #define PROMPTHANDLE_H
 
 #include "Prompt.hpp"
+#include "Video.hpp"
 
 #include <cmath>
 #include <sstream>

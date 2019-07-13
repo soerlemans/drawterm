@@ -1,7 +1,8 @@
 #ifndef CURSOR_H
 #define CURSOR_H
 
-#include "Video.hpp"
+#include <ncurses.h>
+#include <tuple>
 
 //only use this for cursor moving dont use the ncurses facilities
 extern void Update() noexcept; //updates all the vals

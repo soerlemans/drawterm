@@ -1,50 +1,60 @@
-CXXFLAGS = -std=c++17 -c -Wall -Wextra
+CXXFLAGS = -std=c++17 -O2 -c -Wall -Wextra -Wno-narrowing #--help=optimizers shows optimizations
 LIBS = -lncurses
 
 OBJECTS = main.o MovementHandle.o Cursor.o ScreenHandle.o \
-	  Prompt.o NcursesOptions.o RT_Error.o Video.o Frame.o RGB.o
+	  Prompt.o NcursesOptions.o InitExcept.o LogicExcept.o Except.o Video.o Frame.o
+VPATH=src
 
-#OBJECTS = *.o
+#.SECONDEXPANSION:
+#OB = *.o
+#OBJECTS = $$(OB)
 
 #some thing is wrong with m_video object that does not exist anymore
 #-rules--
 
 drawterm : $(OBJECTS)
-	g++ -o $@ $(OBJECTS) $(LIBS)
+	 g++ -O2 -o $@ $^ $(LIBS)
 
 main.o : main.cpp MovementHandle.o ScreenHandle.o
-	g++ $(CXXFLAGS) main.cpp
+	g++ $(CXXFLAGS) $<
 
 MovementHandle.o : MovementHandle.cpp MovementHandle.hpp Cursor.o
-	g++ $(CXXFLAGS) MovementHandle.cpp
+	g++ $(CXXFLAGS) $<
 
-Cursor.o : Cursor.cpp Cursor.hpp Video.o
-	g++ $(CXXFLAGS) Cursor.cpp
+Cursor.o : Cursor.cpp Cursor.hpp
+	g++ $(CXXFLAGS) $<
 
 ScreenHandle.o : ScreenHandle.cpp ScreenHandle.hpp Prompt.o
-	g++ $(CXXFLAGS) ScreenHandle.cpp 
+	g++ $(CXXFLAGS) $<
 
 Prompt.o : Prompt.cpp Prompt.hpp Cursor.o NcursesOptions.o
-	g++ $(CXXFLAGS) Prompt.cpp 
+	g++ $(CXXFLAGS) $<
 
-NcursesOptions.o : NcursesOptions.cpp NcursesOptions.hpp RT_Error.o
-	g++ $(CXXFLAGS) NcursesOptions.cpp 
+NcursesOptions.o : NcursesOptions.cpp NcursesOptions.hpp InitExcept.o
+	g++ $(CXXFLAGS) $<
 
-RT_Error.o : RT_Error.cpp RT_Error.hpp 
-	g++ $(CXXFLAGS) RT_Error.cpp
+InitExcept.o : InitExcept.cpp InitExcept.hpp Except.o
+	g++ $(CXXFLAGS) $<
+
+LogicExcept.o : LogicExcept.cpp LogicExcept.hpp Except.o
+	g++ $(CXXFLAGS) $<
+
+Except.o : Except.cpp Except.hpp 
+	g++ $(CXXFLAGS) $<
 
 Video.o : Video.cpp Video.hpp Frame.o
-	g++ $(CXXFLAGS) Video.cpp 
+	g++ $(CXXFLAGS) $<
 
-Frame.o : Frame.cpp Frame.hpp RGB.o
-	g++ $(CXXFLAGS) Frame.cpp 
+Frame.o : Frame.cpp Frame.hpp LogicExcept.o Cursor.o
+	g++ $(CXXFLAGS) $<
 
-RGB.o : RGB.cpp RGB.hpp 
-	g++ $(CXXFLAGS) RGB.cpp
+.PHONY: install uninstall clean
 
 install : #install the exceutable on the system
 
-clean :   #remove all the executable and all the object files
+uninstall : #uninstall the executable on the system
+
+clean :  #remove all the executable and all the object files
 	rm drawterm $(wildcard *.o)
 
 

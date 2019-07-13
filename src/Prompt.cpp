@@ -1,6 +1,6 @@
 #include "Prompt.hpp"
 
-void ClearPrompt(WINDOW* t_win)
+void ClearPrompt(WINDOW* t_win) noexcept
 {
     auto[old_x, old_y] = GetCurxy();
 
@@ -11,7 +11,7 @@ void ClearPrompt(WINDOW* t_win)
 }
 
 //draws the basic prompt string
-void DrawPrompt(WINDOW* t_win, const std::string& t_text)
+void DrawPrompt(WINDOW* t_win, const std::string& t_text) noexcept
 {
     ClearPrompt(t_win);
 
@@ -19,20 +19,24 @@ void DrawPrompt(WINDOW* t_win, const std::string& t_text)
     printw("%s", t_text.c_str());
 }
 
-void DrawPromptLine(WINDOW* t_win)
+void DrawPromptLine(WINDOW* t_win) noexcept
 {
     MovePromptLine(t_win);
     whline(t_win, ACS_CKBOARD, GetMaxx());
 }
 
-void DrawPromptBrush(WINDOW* t_win)
+void DrawPromptBrush(WINDOW* t_win) 
 {
   MoveBrush(t_win, 0);
-
-  attron(COLOR_PAIR(GetPair_Pos()));
-  waddch(t_win, GetCharacter());
-  attroff(COLOR_PAIR(GetPair_Pos()));
-  
+  try{
+    attron(COLOR_PAIR(GetPair_Pos()));
+    waddch(t_win, GetCharacter());
+    attroff(COLOR_PAIR(GetPair_Pos()));
+  }catch(InitExcept& catched)
+    {
+      catched += "DrawPromptBrush() ";
+      throw catched;
+    }
   MoveBrush(t_win, 1);
   
   //for if the fg an bg colors are the same
@@ -73,6 +77,7 @@ int HandleDelete(WINDOW* t_win, int t_index, std::size_t t_textsize)
   return t_index;
 }
 
+//add the option to press escape to leave the function without changing anything
 std::string InputPrompt_Str(WINDOW* t_win, const std::string& t_text, int t_input_length)
 {
   auto[old_x, old_y] = GetCurxy();
@@ -99,8 +104,9 @@ std::string InputPrompt_Str(WINDOW* t_win, const std::string& t_text, int t_inpu
       } 
     echo_off();
     
-  }catch(RT_Error catched){
-    throw RT_Error(catched += " InputPrompt()");
+  }catch(InitExcept& catched){
+    catched += " InputPrompt()";
+    throw catched;
     }
   
   Move(t_win, old_x, old_y);
@@ -124,24 +130,31 @@ char InputPrompt_Char(WINDOW* t_win, const std::string& t_text, const std::strin
 	    break;
 	  }
     }
-  
   return format.front();
 }
 
-int InputPrompt_Int(WINDOW* t_win, const std::string& t_text, int input_lenght, int t_min, int t_max)
+//using declarations for cleaning up the messy type declerations
+using ll  = long long;
+using ull = unsigned long long;
+
+//converter function
+//Type must always be numeric and Func a converting function lik std::stoi
+template<typename Type, typename Func>
+Type InputPrompt_Conv(WINDOW* t_win, const std::string& t_text, int t_input_lenght, Type t_min, Type t_max, Func t_function)
 {
   std::string value_str;
-  int value_int {t_min-1};
+  Type value {t_min-1};
 
   //skip if there is an alpha character in it
   bool skip {false};
   
-  for(; value_int < t_min || value_int > t_max; skip = false)
+  for(; value < t_min || value > t_max; skip = false)
     {
       try{
-	value_str = InputPrompt_Str(t_win, t_text, input_lenght);
-      }catch(RT_Error catched){
-	throw RT_Error(catched += " InputPrompt() + t_min, t_max");
+	value_str = InputPrompt_Str(t_win, t_text, t_input_lenght);
+      }catch(InitExcept& catched){
+	catched += " InputPrompt_Conv() ";
+	throw catched;
       }
       if(value_str.front() == '\n') return 0;
 	
@@ -152,21 +165,56 @@ int InputPrompt_Int(WINDOW* t_win, const std::string& t_text, int input_lenght, 
 	}
       
 	if(!skip)
-	  value_int = std::stoi(value_str);
+	  value = t_function(value_str, 0, 10);
     }
-  return value_int;
+  return value;
+}
+
+ll InputPrompt_LL(WINDOW* t_win, const std::string& t_text, int t_input_lenght, ll t_min, ll t_max)
+{
+  //function pointer to std::stoll
+  ll (*func)(const std::string&, std::size_t*, int) = std::stoll;
+  return InputPrompt_Conv(t_win, t_text, t_input_lenght, t_min, t_max, func);
+}
+
+//make a InputPrompt_Long() for now i think raw copying it will be the best option
+ull InputPrompt_ULL(WINDOW* t_win, const std::string& t_text, int t_input_lenght, ull t_min, ull t_max)
+{
+  //function pointer to std::stoull
+  ull (*func)(const std::string&, std::size_t*, int) = std::stoull;
+  return InputPrompt_Conv(t_win, t_text, t_input_lenght, t_min, t_max, func);
+}
+
+//this will give an error if it is used outside this file cause it cant template the types
+template<typename T> 
+std::string RangeToText(const T& t_min, const T& t_max)
+{
+  endwin();
+  
+  std::string text;
+  text += std::to_string(t_min);
+  text += "-";
+  text += std::to_string(t_max);
+  text += ":";
+
+  return text;
 }
 
 //handles the most used use case
-int InputPrompt_Int(WINDOW* t_win, std::string t_text, int t_min, int t_max)
+ll InputPrompt_LL(WINDOW* t_win, std::string t_text, ll t_min, ll t_max)
 {
   int input_length {std::log(t_max)+1};
 
-  t_text += std::to_string(t_min);
-  t_text += "-";
-  t_text += std::to_string(t_max);
-  t_text += ":";
+  RangeToText(t_min, t_max);
   
-  return InputPrompt_Int(t_win, t_text, input_length, t_min, t_max);
+  return InputPrompt_LL(t_win, t_text, input_length, t_min, t_max);
 }
 
+ull InputPrompt_ULL(WINDOW* t_win, std::string t_text, ull t_min, ull t_max)
+{
+  int input_length {std::log(t_max)+1};
+
+  RangeToText(t_min, t_max);
+  
+  return InputPrompt_ULL(t_win, t_text, input_length, t_min, t_max);
+}

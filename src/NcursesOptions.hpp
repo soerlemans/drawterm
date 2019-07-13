@@ -1,7 +1,7 @@
 #ifndef NCURSESOPTIONS_H
 #define NCURSESOPTIONS_H
 
-#include "RT_Error.hpp"
+#include "InitExcept.hpp"
 
 #include <ncurses.h>
 #include <stdexcept>

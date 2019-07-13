@@ -1,7 +1,9 @@
 #ifndef FRAME_H
 #define FRAME_H
 
-#include "RGB.hpp"
+#include "Cursor.hpp"
+#include "LogicExcept.hpp"
+#include "InitExcept.hpp"
 
 #include <iostream>
 #include <tuple>
@@ -21,20 +23,20 @@ using Character = std::pair<char, int>;
 class Frame
 {
 private:
-  Matrix<Character> m_matrix;
+  Matrix<Character> m_matrix;//it will at least always be 1x1
   
 public:
   Frame();
   
   void SetPoint(const std::size_t t_x, const std::size_t t_y, const Character& t_color) noexcept;
+  void SetPoint(const std::size_t t_x, const std::size_t t_y, char t_character, int t_color_pair) noexcept;
 
-  void Setwh(std::size_t t_w, std::size_t t_h);
+  void Setwh(std::size_t t_w = 1, std::size_t t_h = 1);
+  auto Getwh() ->std::tuple<std::size_t, std::size_t>;
   
   std::vector<Character>& operator[](unsigned t_index);
-  
-  //draw the frame to the screen
-  void DrawFrame(int t_screen_w, int t_screen_h, int t_offset_x = 0, int t_offset_y = 0);
+
+  void DrawFrame();
 };
 
 #endif // FRAME_H
-

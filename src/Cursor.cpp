@@ -136,18 +136,19 @@ void MoveDown(WINDOW* t_win, int t_amount) noexcept
 void MovePrompt(WINDOW* t_win, int t_cursor_x) noexcept
 //goes to the prompt area what is normally out of bounds
 {
-    m_cursor_x = t_cursor_x;
-    m_cursor_y = m_max_y+1;
-
-    wmove(t_win, m_cursor_y, m_cursor_x);
+  m_cursor_x = t_cursor_x;
+  m_cursor_y = m_max_y+1;
+  
+  wmove(t_win, m_cursor_y, m_cursor_x);
 }
 
 void MoveBrush(WINDOW* t_win, int t_cursor_x) noexcept
 //goes from right to left
 {
-   m_cursor_x = m_max_x - ++t_cursor_x;
-   m_cursor_y = m_max_y+1;
-
+  ++t_cursor_x;
+  m_cursor_x = m_max_x - t_cursor_x;
+  m_cursor_y = m_max_y+1;
+  
   wmove(t_win, m_cursor_y, m_cursor_x);
 }
   

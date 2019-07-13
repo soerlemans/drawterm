@@ -16,18 +16,26 @@ void Init()
     initscr();
 
     try{
-
       color_on();
       cbreak_on();
       echo_off();
       keypad_on();
 
     //tell them where it came from
-    }catch(RT_Error catched){
-        throw RT_Error{catched += " Init()"};
+    }catch(InitExcept& catched){
+      catched += " Init()";
+      throw catched;
     }
     //update the file that takes care of the cursor
     Update();
+}
+
+//draw the frame to the screen
+//TODO search for a good place to put this as of now
+//cause it knows of Cursor Video and the Frame files
+void DrawFrame(Frame t_frame)
+{
+  
 }
 
 void Loop()
@@ -57,25 +65,27 @@ void Loop()
 int main()
 {
   try{
-    Init();
-  }catch(RT_Error except)
-    {
-      std::cerr << "somethign failed to init\n"
-		<< "exception: " << except.what()
-		<< "\nterminating..." << std::endl;
-      return 2;
-    }
+    try{
+      Init();
+    }catch(InitExcept& except)
+      {
+	endwin();
+	std::cerr << "something failed to initialize\n"
+		  << "exception: " << except.what()
+		  << "\nterminating..." << std::endl;
+	return 2;
+      }
 
-  //  try{
     Loop();
-    /*  }catch(const std::exception& except)
+  }catch(const Except& except)
     {
+      endwin();
       std::cerr << "an exception slipped past to main()\n"
 		<< "exception:" << except.what()
 		<< "\nterminating..." << std::endl;
       return 3;
     }
-    */
+
   endwin();
   return 0;
 }
