@@ -30,14 +30,6 @@ void Init()
     Update();
 }
 
-//draw the frame to the screen
-//TODO search for a good place to put this as of now
-//cause it knows of Cursor Video and the Frame files
-void DrawFrame(Frame t_frame)
-{
-  
-}
-
 void Loop()
 {
     for(int keypress {0}; keypress != ERR && keypress != 'q'; keypress = getch())
@@ -53,7 +45,6 @@ void Loop()
       
       Move(stdscr, old_x, old_y);
       
-      //      printw("%d", keypress);
       wrefresh(stdscr);
     }
 }

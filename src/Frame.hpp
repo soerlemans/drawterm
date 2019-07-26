@@ -2,6 +2,7 @@
 #define FRAME_H
 
 #include "Cursor.hpp"
+#include "NcursesOptions.hpp"
 #include "LogicExcept.hpp"
 #include "InitExcept.hpp"
 
@@ -35,8 +36,9 @@ public:
   auto Getwh() ->std::tuple<std::size_t, std::size_t>;
   
   std::vector<Character>& operator[](unsigned t_index);
+  void DrawLine(const std::vector<Character>& t_line, std::size_t t_screen_w, std::size_t t_offset_x);
+  void DrawFrame(std::size_t t_screen_w, std::size_t t_screen_h, std::size_t t_offset_x, std::size_t t_offset_y);
 
-  void DrawFrame();
 };
 
 #endif // FRAME_H

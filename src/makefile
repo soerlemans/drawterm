@@ -45,7 +45,7 @@ Except.o : Except.cpp Except.hpp
 Video.o : Video.cpp Video.hpp Frame.o
 	g++ $(CXXFLAGS) $<
 
-Frame.o : Frame.cpp Frame.hpp LogicExcept.o Cursor.o
+Frame.o : Frame.cpp Frame.hpp Cursor.o NcursesOptions.o LogicExcept.o InitExcept.o
 	g++ $(CXXFLAGS) $<
 
 .PHONY: install uninstall clean

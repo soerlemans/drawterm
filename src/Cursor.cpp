@@ -71,7 +71,7 @@ int Boundsy(int t_cursor_y) noexcept
 
 bool SetPair_Pos(short t_pair_pos) noexcept
 {
-  if( t_pair_pos > int{COLOR_PAIRS - 1} || t_pair_pos < 1) return false;
+  if(t_pair_pos > int{COLOR_PAIRS - 1} || t_pair_pos < 0) return false;
   
   m_pair_pos = t_pair_pos;
 

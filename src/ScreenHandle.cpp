@@ -29,19 +29,19 @@ void CreatePair()
 {
   int pair_pos {InputPrompt_LL(stdscr, "Insert Color Pair ", 0, COLOR_PAIRS)};
     
-  int color_id_fg = InputPrompt_LL(stdscr, "Insert color ID FG ", 0, COLORS);
-  int color_id_bg = InputPrompt_LL(stdscr, "Insert color ID BG ", 0, COLORS);
+  int color_id_fg = InputPrompt_ULL(stdscr, "Insert color ID FG ", 0, COLORS);
+  int color_id_bg = InputPrompt_ULL(stdscr, "Insert color ID BG ", 0, COLORS);
 
   init_pair(pair_pos, color_id_fg, color_id_bg);
 }
 
 void ChangeColor()
 {
-  int color_id = InputPrompt_LL(stdscr, "Insert color ID ", 0, COLORS);
+  int color_id = InputPrompt_ULL(stdscr, "Insert color ID ", 0, COLORS);
   
-  int color_r = InputPrompt_LL(stdscr, "Insert R ", 0, 999);
-  int color_g = InputPrompt_LL(stdscr, "Insert G ", 0, 999);
-  int color_b = InputPrompt_LL(stdscr, "Insert B ", 0, 999);
+  int color_r = InputPrompt_ULL(stdscr, "Insert R ", 0, 999);
+  int color_g = InputPrompt_ULL(stdscr, "Insert G ", 0, 999);
+  int color_b = InputPrompt_ULL(stdscr, "Insert B ", 0, 999);
   
   init_color(color_id, color_r, color_g, color_b);
 }
@@ -55,7 +55,7 @@ void ChangeCharacter()
 
 void ChangePair_Pos()
 {
-  int pair_pos {InputPrompt_LL(stdscr, "Insert ", 0, COLOR_PAIRS)};
+  int pair_pos {InputPrompt_ULL(stdscr, "Insert ", 0, COLOR_PAIRS)};
 
   SetPair_Pos(pair_pos);
 }
@@ -112,6 +112,7 @@ void ChangeVideoLength()
   SetVideoLength(new_length*max_length_in_frame/max_length_formatted);
 }
 
+//TODO decide on a good max canvas size
 void ChangeCanvasSize()
 { //set the canvas size
     int width {InputPrompt_LL(stdscr, "Insert width ", 1, 100)};
@@ -120,10 +121,21 @@ void ChangeCanvasSize()
     Setwh(width, height);
 }
 
+void HandleEnter()
+{
+  auto[cur_x, cur_y] = GetCurxy();
+
+  SetCurrentFramePoint(cur_x, cur_y, GetCharacter(), GetPair_Pos());
+}
+
 void ScreenHandle(int t_keypress)
 {
     switch(t_keypress)
     {
+    case 'v':
+      CreatePair();
+      break;
+      
     case 'c':
       ChangeColor();
       break;
@@ -151,7 +163,9 @@ void ScreenHandle(int t_keypress)
     case '>':
       NextFrame();
       break;
+
+      //case 10:
+      //      HandleEnter();
+      //break;
     }
-    
-    
 }

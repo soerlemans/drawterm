@@ -34,7 +34,7 @@ void Frame::Setwh(std::size_t t_w, std::size_t t_h)
   
   m_matrix.resize(t_h);
   m_matrix.at(0).resize(t_w);
-  }catch(std::out_of_range except)
+  }catch(std::out_of_range& except)
     {
       throw LogicExcept("out of range access int Frame::Setwh() ");
     }
@@ -50,11 +50,11 @@ std::vector<Character>& Frame::operator[](unsigned t_index)
 {
     return m_matrix[t_index];
 }
-/*
-void Frame::DrawLine(std::vector<Character> t_line, int t_screen_w, std::size_t t_offset_x)
+
+void Frame::DrawLine(const std::vector<Character>& t_line, std::size_t t_screen_w, std::size_t t_offset_x)
 {
   std::size_t matrix_width {t_offset_x + t_screen_w};
-  std::size_t index {(t_offset_x + t_screen_h) > matrix_width};
+  std::size_t index {(t_offset_x + t_screen_w) > matrix_width};
 
   if(matrix_width < t_screen_w)
     {
@@ -62,19 +62,28 @@ void Frame::DrawLine(std::vector<Character> t_line, int t_screen_w, std::size_t 
       index = 0;
     }
   
-  for(; index < matrix_width; index++)
+  for(int x_pos {0}; index < matrix_width; index++, x_pos++)
     {
-      
+      	Movex(stdscr, x_pos);
+	const auto& point = t_line[x_pos];
+	
+      try{
 
+	attribute_on(COLOR_PAIR(point.second));
+	addch(point.first);
+	attribute_off(COLOR_PAIR(point.first));
 
+      }catch(InitExcept& catched){
+	catched += " Frame::DrawLine()";
+	throw catched;
+      }
     }
 }
 
-void Frame::DrawFrame(int t_screen_w, int t_screen_h, std::size_t t_offset_x, std::size_t t_offset_y)
+void Frame::DrawFrame(std::size_t t_screen_w, std::size_t t_screen_h, std::size_t t_offset_x, std::size_t t_offset_y)
 {
-  try{
     std::size_t matrix_height {t_offset_y + t_screen_h};
-    std::size_t index{((t_offset_y + t_screen_h) > matrix_height) ? matrix_height - t_screen.h) : t_offset_y};
+    std::size_t index{((t_offset_y + t_screen_h) > matrix_height) ? matrix_height - t_screen_h : t_offset_y};
   
   if(matrix_height < t_screen_h)
     {
@@ -84,13 +93,15 @@ void Frame::DrawFrame(int t_screen_w, int t_screen_h, std::size_t t_offset_x, st
   
   for(int y_pos {0}; index < matrix_height; index++, y_pos++)
     {
-      DrawLine(m_matrix[index], t_screen_w, t_offset_x);
-      Movey(stdscr, y_pos); //change this for later allow to specify the DrawFrame window* param TODO
+      try{
+	Movey(stdscr, y_pos);
+      
+	DrawLine(m_matrix[index], t_screen_w, t_offset_x);
+	Movey(stdscr, y_pos); //change this for later allow to specify the DrawFrame window* param TODO
+	
+      }catch(InitExcept& catched){
+	catched += " Frame::DrawFrame()";
+	throw catched;
+      }
     }
-  
-  }catch(InitExcept& catched){
-    catched += " Frame::DrawFrame()";
-    throw catched;
-  }
 }
-*/

@@ -30,6 +30,16 @@ void keypad_off()
     if(keypad(stdscr, FALSE) == ERR) throw InitExcept{"keypad failed to turn off"};
 }
 
+void attribute_on(int t_attrs)
+{
+  if(attron(t_attrs) == ERR) throw InitExcept{"attron failed to turn on"};
+}
+
+void attribute_off(int t_attrs)
+{
+  if(attroff(t_attrs) == ERR) throw InitExcept{"attroff failed to turn off"};
+}
+
 //maybe if this one fails make it run in black and white?
 void color_on(){
 
