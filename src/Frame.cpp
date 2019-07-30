@@ -14,26 +14,38 @@ void Frame::SetPoint(const std::size_t t_x, const std::size_t t_y, const Charact
 
 void Frame::SetPoint(const std::size_t t_x, const std::size_t t_y, char t_character, int t_color_pair) noexcept
 {
+  std::cerr << "\nt_x: " << t_x << " t_y: " << t_y;
+  try{
+    std::cerr << "\nw: "  << m_matrix[0].size() << " h: " << m_matrix.size();
+  }catch(std::exception& except)
+    {
+      std::cerr << except.what();
+    }
+
+  std::cerr << "\nchar: " << t_character << " t_cp: " << t_color_pair;
+  //TODO fix this causes segmentation fault
   m_matrix[t_x][t_y] = Character{t_character, t_color_pair};
+
+  std::cerr << "made it\n";
 }
 
 void Frame::Setwh(std::size_t t_w, std::size_t t_h)
 {
   try{
     
-  static constexpr std::size_t min_amount {1};
-  const std::size_t max_amount_w {m_matrix.at(0).max_size()},
-                    max_amount_h {m_matrix.max_size()};
+    static constexpr std::size_t min_amount {1};
+    const std::size_t max_amount_w {m_matrix.at(0).max_size()},
+                                    max_amount_h {m_matrix.max_size()};
     
-  //size should be atleast 1x1
-  if(t_h < min_amount) t_h = min_amount;
-  if(t_w < min_amount) t_w = min_amount;
+    //size should be atleast 1x1
+    if(t_h < min_amount) t_h = min_amount;
+    if(t_w < min_amount) t_w = min_amount;
 
-  if(t_h > max_amount_h) t_h = max_amount_h;
-  if(t_w > max_amount_w) t_w = max_amount_w;
-  
-  m_matrix.resize(t_h);
-  m_matrix.at(0).resize(t_w);
+    if(t_h > max_amount_h) t_h = max_amount_h;
+    if(t_w > max_amount_w) t_w = max_amount_w;
+    
+    m_matrix.resize(t_h);
+    m_matrix.at(0).resize(t_w);
   }catch(std::out_of_range& except)
     {
       throw LogicExcept("out of range access int Frame::Setwh() ");
@@ -71,7 +83,7 @@ void Frame::DrawLine(const std::vector<Character>& t_line, std::size_t t_screen_
 
 	attribute_on(COLOR_PAIR(point.second));
 	addch(point.first);
-	attribute_off(COLOR_PAIR(point.first));
+	attribute_off(COLOR_PAIR(point.second));
 
       }catch(InitExcept& catched){
 	catched += " Frame::DrawLine()";

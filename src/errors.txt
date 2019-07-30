@@ -1,0 +1,8 @@
+
+t_x: 0 t_y: 0
+w: 10 h: 10
+char: A t_cp: 1made it
+
+t_x: 1 t_y: 0
+w: 10 h: 10
+char: A t_cp: 1

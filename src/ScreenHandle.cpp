@@ -164,8 +164,8 @@ void ScreenHandle(int t_keypress)
       NextFrame();
       break;
 
-      //case 10:
-      //      HandleEnter();
-      //break;
+    case 10:
+      HandleEnter();
+      break;
     }
 }

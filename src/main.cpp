@@ -28,6 +28,10 @@ void Init()
     }
     //update the file that takes care of the cursor
     Update();
+
+    //Set the standard video dimensions
+    SetVideoLength(1);
+    Setwh(1, 1);
 }
 
 void Loop()
