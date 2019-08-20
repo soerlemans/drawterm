@@ -9,6 +9,7 @@
 #include <iostream>
 #include <tuple>
 #include <algorithm>
+#include <vector>
 
 template<typename Type>
 using Matrix = std::vector<std::vector<Type>>;

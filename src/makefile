@@ -1,5 +1,5 @@
 CXXFLAGS = -std=c++17 -O2 -c -Wall -Wextra -Wno-narrowing #--help=optimizers shows optimizations
-LIBS = -lncurses
+LIBS = -lncurses -ltinfo
 
 OBJECTS = main.o MovementHandle.o Cursor.o ScreenHandle.o \
 	  Prompt.o NcursesOptions.o InitExcept.o LogicExcept.o Except.o Video.o Frame.o
