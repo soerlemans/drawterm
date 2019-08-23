@@ -46,7 +46,8 @@ void Loop()
       DrawPromptLine();
       DrawPrompt();
       DrawPromptBrush();
-      
+
+      DrawCurrentFrame(30, 30);
       Move(stdscr, old_x, old_y);
       
       wrefresh(stdscr);

@@ -14,7 +14,7 @@ extern std::size_t GetMaxVideoLength() noexcept;
 
 extern void Setwh(std::size_t t_w = 1, std::size_t t_h = 1);
 
-extern void SetCurrentFramePoint(const std::size_t t_x, const std::size_t t_y, char t_character, int t_color_pair);
+extern void SetCurrentFramePoint(char t_character, int t_color_pair);
 extern void DrawCurrentFrame(int t_screen_w, int t_screen_h);
 
 #endif // VIDEO_H

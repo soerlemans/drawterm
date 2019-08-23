@@ -77,9 +77,11 @@ void Setwh(std::size_t t_w, std::size_t t_h)
 		});
 }
 
-void SetCurrentFramePoint(const std::size_t t_x, const std::size_t t_y, char t_character, int t_color_pair)
+void SetCurrentFramePoint(char t_character, int t_color_pair)
 {
-  g_video[g_video_pos].SetPoint(t_x, t_y, t_character, t_color_pair);
+  auto[x, y] = GetCurxy();
+  
+  g_video[g_video_pos].SetPoint(x, y, t_character, t_color_pair);
 
   g_changed = true;
 }

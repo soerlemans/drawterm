@@ -9,12 +9,12 @@ Frame::Frame()
 
 void Frame::SetPoint(const std::size_t t_x, const std::size_t t_y, const Character& t_color) noexcept
 {
-  m_matrix[t_x][t_y] = t_color;
+  m_matrix[t_y][t_x] = t_color;
 }
 
 void Frame::SetPoint(const std::size_t t_x, const std::size_t t_y, char t_character, int t_color_pair) noexcept
 {
-  m_matrix[t_x][t_y] = Character{t_character, t_color_pair};
+  m_matrix[t_y][t_x] = Character{t_character, t_color_pair};
 }
 
 void Frame::Setwh(std::size_t t_w, std::size_t t_h)
@@ -45,7 +45,7 @@ void Frame::Setwh(std::size_t t_w, std::size_t t_h)
 //TODO make this so it never throws an out of range exception
 auto Frame::Getwh() ->std::tuple<std::size_t, std::size_t>
 {
-  return {};
+  return {m_matrix[0].size(), m_matrix.size()};
 }
 
 std::vector<Character>& Frame::operator[](unsigned t_index)
@@ -55,26 +55,18 @@ std::vector<Character>& Frame::operator[](unsigned t_index)
 
 void Frame::DrawLine(const std::vector<Character>& t_line, std::size_t t_screen_w, std::size_t t_offset_x)
 {
-  std::size_t matrix_width {t_offset_x + t_screen_w};
-  std::size_t index {(t_offset_x + t_screen_w) > matrix_width};
-
-  if(matrix_width < t_screen_w)
-    {
-      matrix_width = t_line.size();
-      index = 0;
-    }
-  
-  for(int x_pos {0}; index < matrix_width; index++, x_pos++)
+  for(int x_pos {0}; x_pos < t_line.size(); x_pos++)
     {
       	Movex(stdscr, x_pos);
 	const auto& point = t_line[x_pos];
 	
       try{
-
 	attribute_on(COLOR_PAIR(point.second));
-	addch(point.first);
-	attribute_off(COLOR_PAIR(point.second));
 
+	if(point.first != 0)
+	  addch(point.first);
+	
+	attribute_off(COLOR_PAIR(point.second));
       }catch(InitExcept& catched){
 	catched += " Frame::DrawLine()";
 	throw catched;
@@ -84,21 +76,12 @@ void Frame::DrawLine(const std::vector<Character>& t_line, std::size_t t_screen_
 
 void Frame::DrawFrame(std::size_t t_screen_w, std::size_t t_screen_h, std::size_t t_offset_x, std::size_t t_offset_y)
 {
-    std::size_t matrix_height {t_offset_y + t_screen_h};
-    std::size_t index{((t_offset_y + t_screen_h) > matrix_height) ? matrix_height - t_screen_h : t_offset_y};
-  
-  if(matrix_height < t_screen_h)
-    {
-      matrix_height = m_matrix.size();
-      index = 0;
-    }
-  
-  for(int y_pos {0}; index < matrix_height; index++, y_pos++)
+  for(int y_pos {0}; y_pos < m_matrix.size(); y_pos++)
     {
       try{
 	Movey(stdscr, y_pos);
       
-	DrawLine(m_matrix[index], t_screen_w, t_offset_x);
+	DrawLine(m_matrix[y_pos], t_screen_w, t_offset_x);
 	Movey(stdscr, y_pos); //change this for later allow to specify the DrawFrame window* param TODO
 	
       }catch(InitExcept& catched){
