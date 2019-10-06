@@ -44,6 +44,19 @@ void DrawPromptBrush(WINDOW* t_win)
   waddch(t_win, GetCharacter());
 }
 
+void DrawDimensions(WINDOW* t_win, std::size_t t_x, std::size_t t_y, std::size_t t_p, std::size_t t_w, std::size_t t_h, std::size_t t_l)
+{
+  std::stringstream ss;
+  ss << "X:" << t_x;
+  ss << " Y:" << t_y;
+  ss << " P:" << t_p;
+  ss << " W:" << t_w;
+  ss << " H:" << t_h;
+  ss << " L:" << t_l;
+
+  MovePromptLine(t_win);
+  printw(ss.str().c_str());
+}
 //these do need to return back to their first position cause they can be called any where
 
 void DrawPromptMessage(WINDOW* t_win, const std::string& t_text, int t_conformation)

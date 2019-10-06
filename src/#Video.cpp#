@@ -84,8 +84,82 @@ auto Getwh() -> std::tuple<std::size_t, std::size_t>
 
 auto Getwhl() -> std::tuple<std::size_t, std::size_t, std::size_t>
 {
-  auto[w, h] = g_video[0].Getwh();
-  return std::tuple(w, h, g_video.size());
+  return {g_video[0].Getwh(), 
+auto Getwh() -> std::tuple<std::size_t, std::size_t>
+{
+  return g_video[0].Getwh();
+}
+
+auto Getwh() -> std::tuple<std::size_t, std::size_t>
+{
+  return g_video[0].Getwh();
+}
+
+auto Getwh() -> std::tuple<std::size_t, std::size_t>
+{
+  return g_video[0].Getwh();
+}
+
+auto Getwh() -> std::tuple<std::size_t, std::size_t>
+{
+  return g_video[0].Getwh();
+}
+
+auto Getwh() -> std::tuple<std::size_t, std::size_t>
+{
+  return g_video[0].Getwh();
+}
+
+auto Getwh() -> std::tuple<std::size_t, std::size_t>
+{
+  return g_video[0].Getwh();
+}
+
+auto Getwh() -> std::tuple<std::size_t, std::size_t>
+{
+  return g_video[0].Getwh();
+}
+
+auto Getwh() -> std::tuple<std::size_t, std::size_t>
+{
+  return g_video[0].Getwh();
+}
+
+auto Getwh() -> std::tuple<std::size_t, std::size_t>
+{
+  return g_video[0].Getwh();
+}
+
+auto Getwh() -> std::tuple<std::size_t, std::size_t>
+{
+  return g_video[0].Getwh();
+}
+
+auto Getwh() -> std::tuple<std::size_t, std::size_t>
+{
+  return g_video[0].Getwh();
+}
+
+auto Getwh() -> std::tuple<std::size_t, std::size_t>
+{
+  return g_video[0].Getwh();
+}
+
+auto Getwh() -> std::tuple<std::size_t, std::size_t>
+{
+  return g_video[0].Getwh();
+}
+
+auto Getwh() -> std::tuple<std::size_t, std::size_t>
+{
+  return g_video[0].Getwh();
+}
+
+auto Getwh() -> std::tuple<std::size_t, std::size_t>
+{
+  return g_video[0].Getwh();
+}
+};
 }
 
 void SetCurrentFramePoint(const std::size_t t_x, const std::size_t t_y, char t_character, int t_color_pair)

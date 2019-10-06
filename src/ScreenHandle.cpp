@@ -115,8 +115,8 @@ void ChangeVideoLength()
 //TODO decide on a good max canvas size
 void ChangeCanvasSize()
 { //set the canvas size
-    int width {InputPrompt_LL(stdscr, "Insert width ", 1, 100)};
-    int height {InputPrompt_LL(stdscr, "Insert height ", 1, 100)};
+    int width {InputPrompt_LL(stdscr, "Insert width ", 1, 500)};
+    int height {InputPrompt_LL(stdscr, "Insert height ", 1, 500)};
 
     Setwh(width, height);
 }
@@ -156,12 +156,12 @@ void ScreenHandle(int t_keypress)
       ChangeCanvasSize();
       break;
 
-    case '<':
-      PreviousFrame();
+    case ',':
+      PreviousFrame(1);
       break;
 
-    case '>':
-      NextFrame();
+    case '.':
+      NextFrame(1);
       break;
 
     case 10:
