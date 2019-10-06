@@ -123,7 +123,9 @@ void ChangeCanvasSize()
 
 void HandleEnter()
 {
-  SetCurrentFramePoint(GetCharacter(), GetPair_Pos());
+  auto[cur_x, cur_y] = GetCurxy();
+
+  SetCurrentFramePoint(cur_x, cur_y, GetCharacter(), GetPair_Pos());
 }
 
 void ScreenHandle(int t_keypress)
