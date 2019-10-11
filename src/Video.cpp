@@ -25,7 +25,9 @@ void GotoFrame(std::size_t t_pos) noexcept
 
 void NextFrame(std::size_t t_amount) noexcept
 {
+  printw("%d", g_video_pos);
   g_video_pos += t_amount;
+  printw("%d", g_video_pos);
 
   if(g_video_pos >= g_video.size())
     g_video_pos = 0;
@@ -88,9 +90,10 @@ auto Getwhl() -> std::tuple<std::size_t, std::size_t, std::size_t>
   return std::tuple(w, h, g_video.size());
 }
 
-void SetCurrentFramePoint(const std::size_t t_x, const std::size_t t_y, char t_character, int t_color_pair)
+void SetCurrentFramePoint()
 {
-  g_video[g_video_pos].SetPoint(t_x, t_y, t_character, t_color_pair);
+  auto[x, y] = GetCurxy();
+  g_video[g_video_pos].SetPoint(x, y, GetCharacter(), GetPair_Pos());
 
   g_changed = true;
 }
@@ -98,6 +101,9 @@ void SetCurrentFramePoint(const std::size_t t_x, const std::size_t t_y, char t_c
 void DrawCurrentFrame(int t_screen_w, int t_screen_h)
 {
   if(g_changed)
-    g_video[g_video_pos].DrawFrame(t_screen_w, t_screen_h, g_offset_x, g_offset_y);
+    {
+      g_video[g_video_pos].DrawFrame(t_screen_w, t_screen_h, g_offset_x, g_offset_y);
+      g_changed = false;
+    }
 }
 

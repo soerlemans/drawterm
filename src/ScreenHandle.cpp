@@ -90,8 +90,8 @@ char FormatLength(double& t_cur_length, std::size_t& t_max_length_formatted)
       break;
 
     default:
-      //throw RT_Error("unrecognised format for FormatLength() ");
-	break;
+      throw LogicExcept("unrecognised format for FormatLength() ");
+      break;
     }
   return for_char;
 }
@@ -121,15 +121,10 @@ void ChangeCanvasSize()
     Setwh(width, height);
 }
 
-void HandleEnter()
-{
-  auto[cur_x, cur_y] = GetCurxy();
-
-  SetCurrentFramePoint(cur_x, cur_y, GetCharacter(), GetPair_Pos());
-}
-
 void ScreenHandle(int t_keypress)
 {
+  static bool sticky_enter {false};
+  
     switch(t_keypress)
     {
     case 'v':
@@ -164,8 +159,17 @@ void ScreenHandle(int t_keypress)
       NextFrame(1);
       break;
 
-    case 10:
-      HandleEnter();
+    case 'i':
+      sticky_enter = !sticky_enter;
+      break;
+
+      
+    case 10: //10 is the Return
+      SetCurrentFramePoint();
       break;
     }
+
+    if(sticky_enter)
+      SetCurrentFramePoint();
+			       
 }
