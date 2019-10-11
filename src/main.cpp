@@ -50,8 +50,10 @@ void Loop()
       auto[w, h, l] = Getwhl();
       DrawDimensions(stdscr, old_x, old_y, GetVideoLength(), w, h, l);
 
-      Move(stdscr, old_x, old_y);
+      DrawCurrentFrame(100,100);
       
+      Move(stdscr, old_x, old_y);
+
       wrefresh(stdscr);
     }
 }
