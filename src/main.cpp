@@ -48,11 +48,11 @@ void Loop()
       DrawPromptBrush();
 
       auto[w, h, l] = Getwhl();
-      DrawDimensions(stdscr, old_x, old_y, GetVideoLength(), w, h, l);
+      DrawDimensions(old_x, old_y, GetVideoLength(), w, h, l);
 
       DrawCurrentFrame(100,100);
       
-      Move(stdscr, old_x, old_y);
+      Move(old_x, old_y);
 
       wrefresh(stdscr);
     }

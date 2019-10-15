@@ -27,35 +27,35 @@ std::string GetCOLORSRange()
 
 void CreatePair()
 {
-  int pair_pos {InputPrompt_LL(stdscr, "Insert Color Pair ", 0, COLOR_PAIRS)};
+  int pair_pos {InputPrompt_LL("Insert Color Pair ", 0, COLOR_PAIRS)};
     
-  int color_id_fg = InputPrompt_ULL(stdscr, "Insert color ID FG ", 0, COLORS);
-  int color_id_bg = InputPrompt_ULL(stdscr, "Insert color ID BG ", 0, COLORS);
+  int color_id_fg = InputPrompt_ULL("Insert color ID FG ", 0, COLORS);
+  int color_id_bg = InputPrompt_ULL("Insert color ID BG ", 0, COLORS);
 
   init_pair(pair_pos, color_id_fg, color_id_bg);
 }
 
 void ChangeColor()
 {
-  int color_id = InputPrompt_ULL(stdscr, "Insert color ID ", 0, COLORS);
+  int color_id = InputPrompt_ULL("Insert color ID ", 0, COLORS);
   
-  int color_r = InputPrompt_ULL(stdscr, "Insert R ", 0, 999);
-  int color_g = InputPrompt_ULL(stdscr, "Insert G ", 0, 999);
-  int color_b = InputPrompt_ULL(stdscr, "Insert B ", 0, 999);
+  int color_r = InputPrompt_ULL("Insert R ", 0, 999);
+  int color_g = InputPrompt_ULL("Insert G ", 0, 999);
+  int color_b = InputPrompt_ULL("Insert B ", 0, 999);
   
   init_color(color_id, color_r, color_g, color_b);
 }
 
 void ChangeCharacter()
 {
-  auto str {InputPrompt_Str(stdscr, "Insert character from keyboard:", 1)};
+  auto str {InputPrompt_Str("Insert character from keyboard:", 1)};
 
   SetCharacter(str.front());
 }
 
 void ChangePair_Pos()
 {
-  int pair_pos {InputPrompt_ULL(stdscr, "Insert ", 0, COLOR_PAIRS)};
+  int pair_pos {InputPrompt_ULL("Insert ", 0, COLOR_PAIRS)};
 
   SetPair_Pos(pair_pos);
 }
@@ -70,7 +70,7 @@ void divide_length(double& t_cur_length, std::size_t& t_max_length_formatted)
 //helper function for formatting the max and current length
 char FormatLength(double& t_cur_length, std::size_t& t_max_length_formatted) 
 {
-  char for_char {InputPrompt_Char(stdscr, "Insert format f(rames),s(econds),m(inutes),h(ours):", "fsmh")};
+  char for_char {InputPrompt_Char("Insert format f(rames),s(econds),m(inutes),h(ours):", "fsmh")};
   
   switch(for_char)
     {
@@ -108,15 +108,15 @@ void ChangeVideoLength()
   std::stringstream ss;
   ss << "Cur length=" << cur_length << for_char << ". Insert length 0-" << max_length_formatted << for_char << ":";
   
-  auto new_length{InputPrompt_LL(stdscr, ss.str(), std::log(max_length_in_frame)+1, 0, max_length_in_frame)};
+  auto new_length{InputPrompt_LL(ss.str(), std::log(max_length_in_frame)+1, 0, max_length_in_frame)};
   SetVideoLength(new_length*max_length_in_frame/max_length_formatted);
 }
 
 //TODO decide on a good max canvas size
 void ChangeCanvasSize()
 { //set the canvas size
-    int width {InputPrompt_LL(stdscr, "Insert width ", 1, 500)};
-    int height {InputPrompt_LL(stdscr, "Insert height ", 1, 500)};
+    int width {InputPrompt_LL("Insert width ", 1, 500)};
+    int height {InputPrompt_LL("Insert height ", 1, 500)};
 
     Setwh(width, height);
 }

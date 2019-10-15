@@ -7,9 +7,9 @@ Frame::Frame()
   m_matrix.resize(1, std::vector<Character>(1, Character{'0', 0}));
 }
 
-void Frame::SetPoint(const std::size_t t_x, const std::size_t t_y, const Character& t_color) noexcept
+void Frame::SetPoint(const std::size_t t_x, const std::size_t t_y, Character&& t_color) noexcept
 {
-  m_matrix[t_y][t_x] = t_color;
+  m_matrix[t_y][t_x] = std::forward<Character>(t_color);
 }
 
 void Frame::SetPoint(const std::size_t t_x, const std::size_t t_y, const char t_character, const int t_color_pair) noexcept
@@ -57,7 +57,7 @@ void Frame::DrawLine(const std::vector<Character>& t_line, std::size_t t_screen_
 {
   for(std::size_t x_pos {0}; x_pos < t_line.size(); x_pos++)
     {
-      	Movex(stdscr, x_pos);
+      	Movex(x_pos);
 	const auto& point = t_line[x_pos];
 	
       try{
@@ -83,10 +83,10 @@ void Frame::DrawFrame(std::size_t t_screen_w, std::size_t t_screen_h, std::size_
   for(std::size_t y_pos {0}; y_pos < m_matrix.size(); y_pos++)
     {
       try{
-	Movey(stdscr, y_pos);
+	Movey(y_pos);
       
 	DrawLine(m_matrix[y_pos], t_screen_w, t_offset_x);
-	Movey(stdscr, y_pos); //change this for later allow to specify the DrawFrame window* param TODO
+	Movey(y_pos); //change this for later allow to specify the DrawFrame window* param TODO
 
    }catch(InitExcept& catched){
 	catched += " Frame::DrawFrame()";

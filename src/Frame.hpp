@@ -30,7 +30,7 @@ private:
 public:
   Frame();
   
-  void SetPoint(const std::size_t t_x, const std::size_t t_y, const Character& t_color) noexcept;
+  void SetPoint(const std::size_t t_x, const std::size_t t_y, Character&& t_color) noexcept;
   void SetPoint(const std::size_t t_x, const std::size_t t_y, const char t_character, const int t_color_pair) noexcept;
 
   void Setwh(std::size_t t_w = 1, std::size_t t_h = 1);

@@ -93,71 +93,71 @@ char GetCharacter() noexcept
   return g_character;
 }
 
-void Movex(WINDOW* t_win, int t_cursor_x) noexcept
+void Movex( int t_cursor_x) noexcept
 {
     g_cursor_x = Boundsx(t_cursor_x);
-    wmove(t_win, g_cursor_y, g_cursor_x);
+    wmove(stdscr, g_cursor_y, g_cursor_x);
 }
 
-void Movey(WINDOW* t_win, int t_cursor_y) noexcept
+void Movey( int t_cursor_y) noexcept
 {
     g_cursor_y = Boundsy(t_cursor_y);
-    wmove(t_win, g_cursor_y, g_cursor_x);
+    wmove(stdscr, g_cursor_y, g_cursor_x);
 }
 
-void Move(WINDOW* t_win, int t_cursor_x, int t_cursor_y) noexcept
+void Move( int t_cursor_x, int t_cursor_y) noexcept
 {
     g_cursor_x = Boundsx(t_cursor_x);
     g_cursor_y = Boundsy(t_cursor_y);
 
-    wmove(t_win, g_cursor_y, g_cursor_x);
+    wmove(stdscr, g_cursor_y, g_cursor_x);
 }
 
-void MoveLeft(WINDOW* t_win, int t_amount) noexcept
+void MoveLeft( int t_amount) noexcept
 {
-    Movex(t_win, g_cursor_x-t_amount);
+    Movex(g_cursor_x-t_amount);
 }
 
-void MoveRight(WINDOW* t_win, int t_amount) noexcept
+void MoveRight( int t_amount) noexcept
 {
-    Movex(t_win, g_cursor_x+t_amount);
+    Movex(g_cursor_x+t_amount);
 }
 
-void MoveUp(WINDOW* t_win, int t_amount) noexcept
+void MoveUp( int t_amount) noexcept
 {
-    Movey(t_win, g_cursor_y-t_amount);
+    Movey(g_cursor_y-t_amount);
 }
 
-void MoveDown(WINDOW* t_win, int t_amount) noexcept
+void MoveDown( int t_amount) noexcept
 {
-    Movey(t_win, g_cursor_y+t_amount);
+    Movey(g_cursor_y+t_amount);
 }
 
-void MovePrompt(WINDOW* t_win, int t_cursor_x) noexcept
+void MovePrompt( int t_cursor_x) noexcept
 //goes to the prompt area what is normally out of bounds
 {
   g_cursor_x = t_cursor_x;
   g_cursor_y = g_max_y+1;
   
-  wmove(t_win, g_cursor_y, g_cursor_x);
+  wmove(stdscr, g_cursor_y, g_cursor_x);
 }
 
-void MoveBrush(WINDOW* t_win, int t_cursor_x) noexcept
+void MoveBrush( int t_cursor_x) noexcept
 //goes from right to left
 {
   ++t_cursor_x;
   g_cursor_x = g_max_x - t_cursor_x;
   g_cursor_y = g_max_y+1;
   
-  wmove(t_win, g_cursor_y, g_cursor_x);
+  wmove(stdscr, g_cursor_y, g_cursor_x);
 }
   
-void MovePromptLine(WINDOW* t_win)
+void MovePromptLine()
 //goes one place up the prompt are to draw the line normally out of bounds
 {
     g_cursor_x = 0;
     g_cursor_y = g_max_y;
 
-    wmove(t_win, g_max_y, g_cursor_x);
+    wmove(stdscr, g_max_y, g_cursor_x);
 }
 
