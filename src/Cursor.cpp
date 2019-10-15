@@ -1,7 +1,11 @@
 #include "Cursor.hpp"
 
+/*getmax(y)|(x) returns the screen height or width
+  cause we only use stdscr so the getbeg(y)|(x) always
+  returns 0 no matter what (atleast in most instances)
+*/
 int g_max_x {getmaxx(stdscr)};
-int g_max_y {getmaxy(stdscr)-2};
+int g_max_y {getmaxy(stdscr)-2}; //-2 cause prompt
 
 int g_cursor_x {getcurx(stdscr)};
 int g_cursor_y {getcury(stdscr)};
@@ -93,19 +97,19 @@ char GetCharacter() noexcept
   return g_character;
 }
 
-void Movex( int t_cursor_x) noexcept
+void Movex(int t_cursor_x) noexcept
 {
     g_cursor_x = Boundsx(t_cursor_x);
     wmove(stdscr, g_cursor_y, g_cursor_x);
 }
 
-void Movey( int t_cursor_y) noexcept
+void Movey(int t_cursor_y) noexcept
 {
     g_cursor_y = Boundsy(t_cursor_y);
     wmove(stdscr, g_cursor_y, g_cursor_x);
 }
 
-void Move( int t_cursor_x, int t_cursor_y) noexcept
+void Move(int t_cursor_x, int t_cursor_y) noexcept
 {
     g_cursor_x = Boundsx(t_cursor_x);
     g_cursor_y = Boundsy(t_cursor_y);
@@ -113,27 +117,27 @@ void Move( int t_cursor_x, int t_cursor_y) noexcept
     wmove(stdscr, g_cursor_y, g_cursor_x);
 }
 
-void MoveLeft( int t_amount) noexcept
+void MoveLeft(int t_amount) noexcept
 {
     Movex(g_cursor_x-t_amount);
 }
 
-void MoveRight( int t_amount) noexcept
+void MoveRight(int t_amount) noexcept
 {
     Movex(g_cursor_x+t_amount);
 }
 
-void MoveUp( int t_amount) noexcept
+void MoveUp(int t_amount) noexcept
 {
     Movey(g_cursor_y-t_amount);
 }
 
-void MoveDown( int t_amount) noexcept
+void MoveDown(int t_amount) noexcept
 {
     Movey(g_cursor_y+t_amount);
 }
 
-void MovePrompt( int t_cursor_x) noexcept
+void MovePrompt(int t_cursor_x) noexcept
 //goes to the prompt area what is normally out of bounds
 {
   g_cursor_x = t_cursor_x;
@@ -142,7 +146,7 @@ void MovePrompt( int t_cursor_x) noexcept
   wmove(stdscr, g_cursor_y, g_cursor_x);
 }
 
-void MoveBrush( int t_cursor_x) noexcept
+void MoveBrush(int t_cursor_x) noexcept
 //goes from right to left
 {
   ++t_cursor_x;

@@ -44,15 +44,12 @@ void DrawPromptBrush()
   waddch(stdscr, GetCharacter());
 }
 
-void DrawDimensions(std::size_t t_x, std::size_t t_y, std::size_t t_p, std::size_t t_w, std::size_t t_h, std::size_t t_l)
+void DrawDimensions(std::size_t t_x, std::size_t t_w, std::size_t t_y, std::size_t t_h, std::size_t t_p, std::size_t t_l)
 {
   std::stringstream ss;
-  ss << "X:" << t_x;
-  ss << " Y:" << t_y;
-  ss << " P:" << t_p;
-  ss << " W:" << t_w;
-  ss << " H:" << t_h;
-  ss << " L:" << t_l;
+  ss << "X:" << t_x << "/" << t_w;
+  ss << " Y:" << t_y << "/" << t_h;
+  ss << " P:" << t_p << "/" << t_l;
 
   MovePromptLine();
   printw(ss.str().c_str());

@@ -13,7 +13,7 @@ extern void ClearPrompt() noexcept;
 extern void DrawPrompt(const std::string& t_text = ":") noexcept;
 extern void DrawPromptLine() noexcept;
 extern void DrawPromptBrush();
-extern void DrawDimensions(std::size_t t_x, std::size_t t_y, std::size_t t_p, std::size_t t_w, std::size_t t_h, std::size_t t_l);
+extern void DrawDimensions(std::size_t t_x, std::size_t t_w, std::size_t t_y, std::size_t t_h, std::size_t t_p, std::size_t t_l);
 
 extern void DrawPromptMessage(const std::string& t_text = "Press Enter", int t_conformation = 10);
 

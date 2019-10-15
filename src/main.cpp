@@ -11,6 +11,7 @@
 #define WINDOWS
 #endif // _WIN32
 
+//initialize ncurses and make the program good to go
 void Init()
 {
   initscr();
@@ -29,9 +30,17 @@ void Init()
   //update the file that takes care of the cursor
   Update();
   
-  //Set the standard video dimensions
+  //Set the standard canvas and video length dimensions
   SetVideoLength(1);
   Setwh(1, 1);
+
+  SetCharacter('X');
+  
+  init_color(1, 0, 0, 0);       //bg
+  init_color(2, 999, 999, 999); //fg
+  init_pair(1, 2, 1);
+  SetPair_Pos(1);
+  
 }
 
 void Loop()
@@ -48,9 +57,9 @@ void Loop()
       DrawPromptBrush();
 
       auto[w, h, l] = Getwhl();
-      DrawDimensions(old_x, old_y, GetVideoLength(), w, h, l);
+      DrawDimensions(old_x,  w, old_y, h, GetVideo_Pos(), l);
 
-      DrawCurrentFrame(100,100);
+      DrawCurrentFrame(GetMaxx(), GetMaxy());
       
       Move(old_x, old_y);
 

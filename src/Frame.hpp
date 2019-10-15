@@ -33,8 +33,8 @@ public:
   void SetPoint(const std::size_t t_x, const std::size_t t_y, Character&& t_color) noexcept;
   void SetPoint(const std::size_t t_x, const std::size_t t_y, const char t_character, const int t_color_pair) noexcept;
 
-  void Setwh(std::size_t t_w = 1, std::size_t t_h = 1);
-  auto Getwh() ->std::tuple<std::size_t, std::size_t>;
+  void Setwh(std::size_t t_w = 1, std::size_t t_h = 1) noexcept;
+  auto Getwh()    ->std::tuple<std::size_t, std::size_t>;
   
   std::vector<Character>& operator[](unsigned t_index);
   void DrawLine(const std::vector<Character>& t_line, std::size_t t_screen_w, std::size_t t_offset_x);

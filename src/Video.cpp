@@ -12,38 +12,41 @@ std::vector<Frame> g_video;
 //if anything is changed then redraw the current frame else dont change the drawing
 bool g_changed {false};
 
-void GotoFrame(std::size_t t_pos) noexcept
+void SetVideo_Pos(std::size_t t_pos) noexcept
 { 
-  std::size_t video_max_range {g_video.size()-1};
-
-  g_video_pos = (t_pos > video_max_range) ?
-    video_max_range :
-    t_pos ;
+  g_video_pos = (t_pos >= g_video.size()) ?
+    g_video.size()-1 :
+    t_pos;
 
   g_changed = true;
 }
 
+std::size_t GetVideo_Pos() noexcept
+{
+  return g_video_pos;
+}
+
 void NextFrame(std::size_t t_amount) noexcept
 {
-  printw("%d", g_video_pos);
-  g_video_pos += t_amount;
-  printw("%d", g_video_pos);
-
-  if(g_video_pos >= g_video.size())
-    g_video_pos = 0;
+  const std::size_t new_pos {g_video_pos + t_amount};
+  
+  g_video_pos = (new_pos >= g_video.size()) ? g_video.size()-1 : new_pos;
 
   g_changed = true;
 }
 
 void PreviousFrame(std::size_t t_amount) noexcept
 {
-  std::size_t video_max_range {g_video.size()-1};
+  const std::size_t new_pos {g_video_pos - t_amount};
 
-  g_video_pos -= t_amount;
+  /*unsigned variable so it would loop to
+    2^N-1 (N is the amount of bits in the type)
+    credit:
+    https://stackoverflow.com/questions/27882579/is-decrementing-an-unsigned-int-below-0-undefined-behavior
+    so just let it loop around and only do something against overflow
+  */
+  g_video_pos = (new_pos >= g_video.size()) ? 0 : new_pos;
 
-  if(g_video_pos > video_max_range)
-    g_video_pos = video_max_range;
-  
   g_changed = true;
 }
 
@@ -58,6 +61,10 @@ void SetVideoLength(std::size_t t_length)
   if(t_length > max_amount) t_length = max_amount;
   
   g_video.resize(t_length);
+
+  //make the new Frames the same width and height
+  auto[w, h] = Getwh();
+  Setwh(w, h);
 }
 
 std::size_t GetVideoLength() noexcept
@@ -81,12 +88,12 @@ void Setwh(std::size_t t_w, std::size_t t_h)
 
 auto Getwh() -> std::tuple<std::size_t, std::size_t>
 {
-  return g_video[0].Getwh();
+  return g_video.front().Getwh();
 }
 
 auto Getwhl() -> std::tuple<std::size_t, std::size_t, std::size_t>
 {
-  auto[w, h] = g_video[0].Getwh();
+  auto[w, h] = g_video.front().Getwh();
   return std::tuple(w, h, g_video.size());
 }
 

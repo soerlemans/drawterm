@@ -115,8 +115,8 @@ void ChangeVideoLength()
 //TODO decide on a good max canvas size
 void ChangeCanvasSize()
 { //set the canvas size
-    int width {InputPrompt_LL("Insert width ", 1, 500)};
-    int height {InputPrompt_LL("Insert height ", 1, 500)};
+    int width  {InputPrompt_LL("Insert width ", 1, 1000)};
+    int height {InputPrompt_LL("Insert height ", 1, 1000)};
 
     Setwh(width, height);
 }

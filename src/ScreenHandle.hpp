@@ -1,5 +1,5 @@
-#ifndef PROMPTHANDLE_H
-#define PROMPTHANDLE_H
+#ifndef SCREENHANDLE_H
+#define SCREENHANDLE_H
 
 #include "Prompt.hpp"
 #include "Video.hpp"
@@ -18,4 +18,4 @@ extern void ChangeCanvasSize();
 
 extern void ScreenHandle(int t_keypress);
 
-#endif // PROMPTHANDLE_H
+#endif // SCREENHANDLE_H
