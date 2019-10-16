@@ -4,17 +4,23 @@
 
 Frame::Frame()
 {
-  m_matrix.resize(1, std::vector<Character>(1, Character{'0', 0}));
+  m_matrix.resize(1, std::vector<Character>(1, Character{' ', 0}));
+}
+
+bool Frame::CheckPos(std::size_t t_x, std::size_t t_y)
+{
+  return (t_x < m_matrix.front().size()) && (t_y < m_matrix.size());
 }
 
 void Frame::SetPoint(const std::size_t t_x, const std::size_t t_y, Character&& t_color) noexcept
 {
-  m_matrix[t_y][t_x] = std::forward<Character>(t_color);
+  if(CheckPos(t_x, t_y))
+    m_matrix[t_y][t_x] = std::forward<Character>(t_color);
 }
 
 void Frame::SetPoint(const std::size_t t_x, const std::size_t t_y, const char t_character, const int t_color_pair) noexcept
 {
-  m_matrix[t_y][t_x] = Character{t_character, t_color_pair};
+  SetPoint(t_x, t_y, Character{t_character, t_color_pair});
 }
 
 void Frame::Setwh(std::size_t t_w, std::size_t t_h) noexcept

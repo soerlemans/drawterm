@@ -36,7 +36,7 @@ void Init()
 
   SetCharacter('X');
   
-  init_color(1, 0, 0, 0);       //bg
+  init_color(1, 0, 200, 0);       //bg
   init_color(2, 999, 999, 999); //fg
   init_pair(1, 2, 1);
   SetPair_Pos(1);
