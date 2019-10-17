@@ -121,11 +121,12 @@ void ChangeCanvasSize()
     Setwh(width, height);
 }
 
-void ScreenHandle(int t_keypress)
+bool ScreenHandle(int t_keypress)
 {
   static bool sticky_enter {false};
+  bool screen_changed {false};
   
-    switch(t_keypress)
+  switch(t_keypress)
     {
     case 'v':
       CreatePair();
@@ -153,23 +154,23 @@ void ScreenHandle(int t_keypress)
 
     case ',':
       PreviousFrame(1);
+      screen_changed = true;
       break;
 
     case '.':
       NextFrame(1);
+      screen_changed = true;
       break;
 
     case 'i':
       sticky_enter = !sticky_enter;
       break;
-
-      
-    case 10: //10 is the Return
-      SetCurrentFramePoint();
-      break;
     }
 
-    if(sticky_enter)
+  if(sticky_enter || t_keypress == 10){
       SetCurrentFramePoint();
-			       
+      screen_changed = true;
+  }
+
+    return screen_changed;
 }

@@ -1,24 +1,21 @@
 #include "Video.hpp"
 
-//the current position in the video
-std::size_t g_video_pos {0};
+namespace{
+  //the current position in the video
+  std::size_t g_video_pos {0};
 
-//the offset of the rendering if youre canvas is bigger than the terminal dimensions
-std::size_t g_offset_x {0}, g_offset_y {0};
+  //the offset of the rendering if youre canvas is bigger than the terminal dimensions
+  std::size_t g_offset_x {0}, g_offset_y {0};
 
-//the video is just a range of frames
-std::vector<Frame> g_video;
-
-//if anything is changed then redraw the current frame else dont change the drawing
-bool g_changed {false};
+  //the video is just a range of frames
+  std::vector<Frame> g_video;
+}
 
 void SetVideo_Pos(std::size_t t_pos) noexcept
 { 
   g_video_pos = (t_pos >= g_video.size()) ?
     g_video.size()-1 :
     t_pos;
-
-  g_changed = true;
 }
 
 std::size_t GetVideo_Pos() noexcept
@@ -31,8 +28,6 @@ void NextFrame(std::size_t t_amount) noexcept
   const std::size_t new_pos {g_video_pos + t_amount};
   
   g_video_pos = (new_pos >= g_video.size()) ? g_video.size()-1 : new_pos;
-
-  g_changed = true;
 }
 
 void PreviousFrame(std::size_t t_amount) noexcept
@@ -46,8 +41,6 @@ void PreviousFrame(std::size_t t_amount) noexcept
     so just let it loop around and only do something against overflow
   */
   g_video_pos = (new_pos >= g_video.size()) ? 0 : new_pos;
-
-  g_changed = true;
 }
 
 //Frame& GetFrame()
@@ -101,16 +94,10 @@ void SetCurrentFramePoint()
 {
   auto[x, y] = GetCurxy();
   g_video[g_video_pos].SetPoint(x, y, GetCharacter(), GetPair_Pos());
-
-  g_changed = true;
 }
 
 void DrawCurrentFrame(int t_screen_w, int t_screen_h)
 {
-  if(g_changed)
-    {
-      g_video[g_video_pos].DrawFrame(t_screen_w, t_screen_h, g_offset_x, g_offset_y);
-      g_changed = false;
-    }
+  g_video[g_video_pos].DrawFrame(t_screen_w, t_screen_h, g_offset_x, g_offset_y);
 }
 

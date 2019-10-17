@@ -27,8 +27,6 @@ void Init()
     catched += " Init()";
     throw catched;
   }
-  //update the file that takes care of the cursor
-  Update();
   
   //Set the standard canvas and video length dimensions
   SetVideoLength(1);
@@ -48,7 +46,7 @@ void Loop()
   for(int keypress {0}; keypress != ERR && keypress != 'q'; keypress = getch())
     {
       MovementHandle(keypress);
-      ScreenHandle(keypress);
+      auto  screen_changed = ScreenHandle(keypress);
 
       auto[old_x, old_y] = GetCurxy();
 
@@ -59,7 +57,8 @@ void Loop()
       auto[w, h, l] = Getwhl();
       DrawDimensions(old_x,  w, old_y, h, GetVideo_Pos(), l);
 
-      DrawCurrentFrame(GetMaxx(), GetMaxy());
+      if(screen_changed)
+	DrawCurrentFrame(GetMaxx(), GetMaxy());
       
       Move(old_x, old_y);
 

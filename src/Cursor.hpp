@@ -5,8 +5,6 @@
 #include <tuple>
 
 //only use this for cursor moving dont use the ncurses facilities
-extern void Update() noexcept; //updates all the vals
-
 extern int  GetCurx() noexcept;
 extern int  GetCury() noexcept;
 extern auto GetCurxy() noexcept ->std::tuple<int, int>;
@@ -17,6 +15,7 @@ extern auto GetMaxxy() noexcept ->std::tuple<int, int>;
 
 extern int GetPrompty() noexcept;
 
+//these should not be kept here they dont fit the file wel
 extern bool  SetPair_Pos(short t_pair_pos) noexcept;
 extern short GetPair_Pos() noexcept;
 

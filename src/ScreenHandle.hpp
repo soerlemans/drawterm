@@ -16,6 +16,6 @@ extern void ChangePair_Pos();
 extern void ChangeVideoLength();
 extern void ChangeCanvasSize();
 
-extern void ScreenHandle(int t_keypress);
+extern bool ScreenHandle(int t_keypress);
 
 #endif // SCREENHANDLE_H
