@@ -1,7 +1,7 @@
 #ifndef FRAME_H
 #define FRAME_H
 
-#include "Cursor.hpp"
+#include "CursorAttributes.hpp"
 #include "NcursesOptions.hpp"
 #include "LogicExcept.hpp"
 #include "InitExcept.hpp"

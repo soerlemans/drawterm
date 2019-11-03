@@ -28,38 +28,34 @@ void Init()
     throw catched;
   }
   
-  //Set the standard canvas and video length dimensions
-  SetVideoLength(1);
-  Setwh(1, 1);
-
-  SetCharacter('X');
-  
-  init_color(1, 0, 200, 0);       //bg
+  init_color(1, 0, 200, 0);     //bg
   init_color(2, 999, 999, 999); //fg
   init_pair(1, 2, 1);
-  SetPair_Pos(1);
-  
 }
 
 void Loop()
 {
+  CursorAttributes attributes;
+  Video video;
+  
+  video.SetVideoLength(1);
+  video.Setwh(1, 1);
+
   for(int keypress {0}; keypress != ERR && keypress != 'q'; keypress = getch())
     {
       MovementHandle(keypress);
-      auto  screen_changed = ScreenHandle(keypress);
+      ScreenHandle(keypress, video, attributes);
 
       auto[old_x, old_y] = GetCurxy();
 
       DrawPromptLine();
       DrawPrompt();
-      DrawPromptBrush();
+      DrawPromptBrush(attributes);
 
-      auto[w, h, l] = Getwhl();
-      DrawDimensions(old_x,  w, old_y, h, GetVideo_Pos(), l);
+      auto[w, h, l] = video.Getwhl();
+      DrawDimensions(old_x,  w, old_y, h, video.GetVideo_Pos(), l);
 
-      if(screen_changed)
-	DrawCurrentFrame(GetMaxx(), GetMaxy());
-      
+      video.DrawCurrentFrame(GetMaxx(), GetMaxy());
       Move(old_x, old_y);
 
       wrefresh(stdscr);

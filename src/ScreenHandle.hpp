@@ -2,6 +2,7 @@
 #define SCREENHANDLE_H
 
 #include "Prompt.hpp"
+#include "CursorAttributes.hpp"
 #include "Video.hpp"
 
 #include <cmath>
@@ -13,9 +14,9 @@ extern std::string GetCOLORSRange();
 extern void ChangeColor();
 extern void ChangeCharacter();
 extern void ChangePair_Pos();
-extern void ChangeVideoLength();
-extern void ChangeCanvasSize();
+extern void ChangeVideoLength(Video& t_video);
+extern void ChangeCanvasSize(Video& t_video);
 
-extern bool ScreenHandle(int t_keypress);
+extern void ScreenHandle(const int t_keypress, Video& t_video, CursorAttributes& t_attributes);
 
 #endif // SCREENHANDLE_H

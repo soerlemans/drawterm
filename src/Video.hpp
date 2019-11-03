@@ -3,21 +3,31 @@
 
 #include "Frame.hpp"
 
-extern void SetVideo_Pos(std::size_t t_pos) noexcept;
-extern std::size_t GetVideo_Pos() noexcept;
+class Video{
 
-extern void NextFrame(std::size_t t_amount = 1) noexcept;
-extern void PreviousFrame(std::size_t _amount = 1) noexcept;
+private:
+  std::size_t m_video_pos {0};
+  std::vector<Frame> m_video;
 
-extern void        SetVideoLength(std::size_t t_length = 1);
-extern std::size_t GetVideoLength() noexcept;
-extern std::size_t GetMaxVideoLength() noexcept;
-
-extern void Setwh(std::size_t t_w = 1, std::size_t t_h = 1);
-extern auto Getwh()    ->std::tuple<std::size_t, std::size_t>;
-extern auto Getwhl() ->std::tuple<std::size_t, std::size_t, std::size_t>;
+  std::size_t m_offset_x {0}, m_offset_y {0};
+  bool m_screen_changed {false};
   
-extern void SetCurrentFramePoint();
-extern void DrawCurrentFrame(int t_screen_w, int t_screen_h);
+public:
+  void SetVideo_Pos(std::size_t t_pos) noexcept;
+  std::size_t GetVideo_Pos() noexcept;
 
+  void NextFrame(std::size_t t_amount = 1) noexcept;
+  void PreviousFrame(std::size_t _amount = 1) noexcept;
+
+  void        SetVideoLength(std::size_t t_length = 1);
+  std::size_t GetVideoLength() noexcept;
+  std::size_t GetMaxVideoLength() noexcept;
+
+  void Setwh(std::size_t t_w = 1, std::size_t t_h = 1);
+  auto Getwh()  ->std::tuple<std::size_t, std::size_t>;
+  auto Getwhl() ->std::tuple<std::size_t, std::size_t, std::size_t>;
+  
+  void SetFramePoint(const CursorAttributes& t_attributes);
+  void DrawCurrentFrame(int t_screen_w, int t_screen_h);
+};
 #endif // VIDEO_H

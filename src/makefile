@@ -1,60 +1,59 @@
-CXXFLAGS = -std=c++17 -O2 -c -Wall -Wextra -Wno-narrowing #--help=optimizers shows optimizations
+CXXFLAGS = -std=c++17 -O2 -c -Wall -Wextra -Wno-narrowing #--help=optimizers
 LIBS = -lncurses -ltinfo
 
-OBJECTS = main.o MovementHandle.o Cursor.o ScreenHandle.o \
-	  Prompt.o NcursesOptions.o InitExcept.o LogicExcept.o Except.o Video.o Frame.o
-VPATH=src
-
-#.SECONDEXPANSION:
-#OB = *.o
-#OBJECTS = $$(OB)
-
-#some thing is wrong with m_video object that does not exist anymore
-#-rules--
+OBJECTS =\
+	CursorAttributes.o Cursor.o Except.o Frame.o InitExcept.o LogicExcept.o main.o MovementHandle.o NcursesOptions.o Prompt.o ScreenHandle.o Video.o 
+VPATH = src
 
 drawterm : $(OBJECTS)
-	 g++ -O2 -o $@ $^ $(LIBS)
+	g++ -O2 -o $@ $^ $(LIBS)
 
-main.o : main.cpp MovementHandle.o ScreenHandle.o
+CursorAttributes.o: CursorAttributes.cpp CursorAttributes.hpp Cursor.hpp
 	g++ $(CXXFLAGS) $<
 
-MovementHandle.o : MovementHandle.cpp MovementHandle.hpp Cursor.o
+Cursor.o: Cursor.cpp Cursor.hpp
 	g++ $(CXXFLAGS) $<
 
-Cursor.o : Cursor.cpp Cursor.hpp
+Except.o: Except.cpp Except.hpp
 	g++ $(CXXFLAGS) $<
 
-ScreenHandle.o : ScreenHandle.cpp ScreenHandle.hpp Prompt.o
+Frame.o: Frame.cpp Frame.hpp CursorAttributes.hpp Cursor.hpp \
+ NcursesOptions.hpp InitExcept.hpp Except.hpp LogicExcept.hpp
 	g++ $(CXXFLAGS) $<
 
-Prompt.o : Prompt.cpp Prompt.hpp Cursor.o NcursesOptions.o
+InitExcept.o: InitExcept.cpp InitExcept.hpp Except.hpp
 	g++ $(CXXFLAGS) $<
 
-NcursesOptions.o : NcursesOptions.cpp NcursesOptions.hpp InitExcept.o
+LogicExcept.o: LogicExcept.cpp LogicExcept.hpp Except.hpp
 	g++ $(CXXFLAGS) $<
 
-InitExcept.o : InitExcept.cpp InitExcept.hpp Except.o
+main.o: main.cpp MovementHandle.hpp Cursor.hpp ScreenHandle.hpp \
+ Prompt.hpp Video.hpp Frame.hpp CursorAttributes.hpp NcursesOptions.hpp \
+ InitExcept.hpp Except.hpp LogicExcept.hpp
 	g++ $(CXXFLAGS) $<
 
-LogicExcept.o : LogicExcept.cpp LogicExcept.hpp Except.o
+MovementHandle.o: MovementHandle.cpp MovementHandle.hpp Cursor.hpp
 	g++ $(CXXFLAGS) $<
 
-Except.o : Except.cpp Except.hpp 
+NcursesOptions.o: NcursesOptions.cpp NcursesOptions.hpp InitExcept.hpp \
+ Except.hpp
 	g++ $(CXXFLAGS) $<
 
-Video.o : Video.cpp Video.hpp Frame.o
+Prompt.o: Prompt.cpp Prompt.hpp Video.hpp Frame.hpp CursorAttributes.hpp \
+ Cursor.hpp NcursesOptions.hpp InitExcept.hpp Except.hpp LogicExcept.hpp
 	g++ $(CXXFLAGS) $<
 
-Frame.o : Frame.cpp Frame.hpp Cursor.o NcursesOptions.o LogicExcept.o InitExcept.o
+ScreenHandle.o: ScreenHandle.cpp ScreenHandle.hpp Prompt.hpp Video.hpp \
+ Frame.hpp CursorAttributes.hpp Cursor.hpp NcursesOptions.hpp \
+ InitExcept.hpp Except.hpp LogicExcept.hpp
 	g++ $(CXXFLAGS) $<
 
-.PHONY: install uninstall clean
-
-install : #install the exceutable on the system
-
-uninstall : #uninstall the executable on the system
+Video.o: Video.cpp Video.hpp Frame.hpp CursorAttributes.hpp Cursor.hpp \
+ NcursesOptions.hpp InitExcept.hpp Except.hpp LogicExcept.hpp
+	g++ $(CXXFLAGS) $<
 
 clean :  #remove all the executable and all the object files
 	rm drawterm $(wildcard *.o)
 
+.PHONY: clean
 

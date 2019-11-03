@@ -4,10 +4,6 @@
   cause we only use stdscr so the getbeg(y)|(x) always
   returns 0 no matter what (atleast in most instances)
 */
-namespace{
-  short g_pair_pos {1};
-  char  g_character {' '};
-}
 
 int GetCurx() noexcept
 {
@@ -62,31 +58,6 @@ int Boundsy(int t_cursor_y) noexcept
   else if(t_cursor_y >= maxy) t_cursor_y = maxy-1;
   
   return t_cursor_y;
-}
-
-bool SetPair_Pos(short t_pair_pos) noexcept
-{
-  if(t_pair_pos > int{COLOR_PAIRS - 1} || t_pair_pos < 0)
-    return false;
-  
-  g_pair_pos = t_pair_pos;
-
-  return true;
-}
-
-short GetPair_Pos() noexcept
-{
-  return g_pair_pos;
-}
-
-void SetCharacter(char t_character) noexcept
-{
-  g_character = t_character;
-}
-
-char GetCharacter() noexcept
-{
-  return g_character;
 }
 
 void Movex(int t_cursor_x) noexcept

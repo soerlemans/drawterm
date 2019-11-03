@@ -46,20 +46,6 @@ void ChangeColor()
   init_color(color_id, color_r, color_g, color_b);
 }
 
-void ChangeCharacter()
-{
-  auto str {InputPrompt_Str("Insert character from keyboard:", 1)};
-
-  SetCharacter(str.front());
-}
-
-void ChangePair_Pos()
-{
-  int pair_pos {InputPrompt_ULL("Insert ", 0, COLOR_PAIRS)};
-
-  SetPair_Pos(pair_pos);
-}
-
 //helper function for ChangeVideoLength()
 void divide_length(double& t_cur_length, std::size_t& t_max_length_formatted)
 {
@@ -96,11 +82,11 @@ char FormatLength(double& t_cur_length, std::size_t& t_max_length_formatted)
   return for_char;
 }
 
-void ChangeVideoLength()
+void ChangeVideoLength(Video& t_video)
 {
-  double cur_length{GetVideoLength()};
+  double cur_length{t_video. GetVideoLength()};
 
-  static constexpr std::size_t max_length_in_frame {5184000};//amount of frames in 24 hours
+  static constexpr std::size_t max_length_in_frame {5'184'000};//amount of frames in 24 hours
   std::size_t max_length_formatted {max_length_in_frame};    //the max formatted length
   
   char for_char {FormatLength(cur_length, max_length_formatted)};
@@ -109,22 +95,21 @@ void ChangeVideoLength()
   ss << "Cur length=" << cur_length << for_char << ". Insert length 0-" << max_length_formatted << for_char << ":";
   
   auto new_length{InputPrompt_LL(ss.str(), std::log(max_length_in_frame)+1, 0, max_length_in_frame)};
-  SetVideoLength(new_length*max_length_in_frame/max_length_formatted);
+  t_video.SetVideoLength(new_length*max_length_in_frame/max_length_formatted);
 }
 
 //TODO decide on a good max canvas size
-void ChangeCanvasSize()
+void ChangeCanvasSize(Video& t_video)
 { //set the canvas size
-    int width  {InputPrompt_LL("Insert width ", 1, 1000)};
+    int width  {InputPrompt_LL("Insert width ",  1, 1000)};
     int height {InputPrompt_LL("Insert height ", 1, 1000)};
 
-    Setwh(width, height);
+    t_video.Setwh(width, height);
 }
 
-bool ScreenHandle(int t_keypress)
+void ScreenHandle(const int t_keypress, Video& t_video, CursorAttributes& t_attributes)
 {
   static bool sticky_enter {false};
-  bool screen_changed {false};
   
   switch(t_keypress)
     {
@@ -137,29 +122,30 @@ bool ScreenHandle(int t_keypress)
       break;
 
     case 'x':
-      ChangeCharacter();
+      { // prevents crosses initializationo
+	char brush_char {InputPrompt_Str("Insert character from keyboard:", 1).front()};
+	t_attributes.SetBrush(brush_char);
+      }
       break;
 	
     case 'z':
-      ChangePair_Pos();
+      t_attributes.SetPair_Pos(InputPrompt_ULL("Insert ", 0, COLOR_PAIRS));
       break;
 
     case 's':
-      ChangeVideoLength();
+      ChangeVideoLength(t_video);
       break;
       
     case 'a':
-      ChangeCanvasSize();
+      ChangeCanvasSize(t_video);
       break;
 
     case ',':
-      PreviousFrame(1);
-      screen_changed = true;
+      t_video.PreviousFrame(1);
       break;
 
     case '.':
-      NextFrame(1);
-      screen_changed = true;
+      t_video.NextFrame(1);
       break;
 
     case 'i':
@@ -168,9 +154,6 @@ bool ScreenHandle(int t_keypress)
     }
 
   if(sticky_enter || t_keypress == 10){
-      SetCurrentFramePoint();
-      screen_changed = true;
+    t_video.SetFramePoint(t_attributes);
   }
-
-    return screen_changed;
 }

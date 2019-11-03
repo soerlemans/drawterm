@@ -25,13 +25,13 @@ void DrawPromptLine() noexcept
     whline(stdscr, ACS_CKBOARD, GetMaxx());
 }
 
-void DrawPromptBrush() 
+void DrawPromptBrush(const CursorAttributes& t_attributes) 
 {
   MoveBrush(0);
   try{
-    attribute_on(COLOR_PAIR(GetPair_Pos()));
-    waddch(stdscr, GetCharacter());
-    attribute_off(COLOR_PAIR(GetPair_Pos()));
+    attribute_on(COLOR_PAIR(t_attributes.GetPair_Pos()));
+    waddch(stdscr, t_attributes.GetBrush());
+    attribute_off(COLOR_PAIR(t_attributes.GetPair_Pos()));
 
   }catch(InitExcept& catched)
     {
@@ -41,7 +41,7 @@ void DrawPromptBrush()
   MoveBrush(1);
   
   //for if the fg an bg colors are the same
-  waddch(stdscr, GetCharacter());
+  waddch(stdscr, t_attributes.GetBrush());
 }
 
 void DrawDimensions(std::size_t t_x, std::size_t t_w, std::size_t t_y, std::size_t t_h, std::size_t t_p, std::size_t t_l)
@@ -151,7 +151,7 @@ using ull = unsigned long long;
 //converter function
 //Type must always be numeric and Func a converting function lik std::stoi
 template<typename Type, typename Func>
-Type InputPrompt_Conv(const std::string& t_text, int t_input_lenght, Type t_min, Type t_max, Func t_function)
+static Type InputPrompt_Conv(const std::string& t_text, int t_input_lenght, Type t_min, Type t_max, Func t_function)
 {
   std::string value_str;
   Type value {t_min-1};
@@ -175,8 +175,8 @@ Type InputPrompt_Conv(const std::string& t_text, int t_input_lenght, Type t_min,
 	    skip = true;
 	}
       
-	if(!skip)
-	  value = t_function(value_str, 0, 10);
+      if(!skip)
+	value = t_function(value_str, 0, 10);
     }
   return value;
 }
