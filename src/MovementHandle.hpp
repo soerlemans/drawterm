@@ -1,8 +1,8 @@
 #ifndef MOVEMENTHANDLE_H
 #define MOVEMENTHANDLE_H
 
-#include "Cursor.hpp"
+#include "Offset.hpp"
 
-extern void MovementHandle(int t_keypress);
+extern void MovementHandle(const int t_keypress, Offset& t_offset) noexcept;
 
 #endif // MOVEMENTHANDLE_H

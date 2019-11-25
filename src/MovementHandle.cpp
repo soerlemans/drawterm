@@ -1,6 +1,6 @@
 #include "MovementHandle.hpp"
 
-void MovementHandle(int t_keypress)
+void MovementHandle(const int t_keypress, Offset& t_offset) noexcept
 {
     switch(t_keypress)
     {
@@ -10,21 +10,25 @@ void MovementHandle(int t_keypress)
     case 'h':
     case   2:
         MoveLeft(1);
+	t_offset.MoveLeft();
         break;
 
     case 'j':
     case  14:
         MoveDown(1);
+	t_offset.MoveDown();
         break;
 
     case 'k':
     case  16:
         MoveUp(1);
+	t_offset.MoveUp();
         break;
 
     case 'l':
     case   6:
         MoveRight(1);
+	t_offset.MoveRight();
         break;
 
     case 260: //arrow left
@@ -41,9 +45,6 @@ void MovementHandle(int t_keypress)
 
     case 261: //arrow right
         MoveRight(15);
-        break;
-
-    default:
         break;
     }
 }

@@ -1,0 +1,205 @@
+
+automake.sh,16
+objects=10,258
+
+CursorAttributes.cpp,207
+bool CursorAttributes::SetPair_Pos(SetPair_Pos3,33
+short CursorAttributes::GetPair_Pos(GetPair_Pos13,220
+void CursorAttributes::SetBrush(SetBrush18,299
+char CursorAttributes::GetBrush(GetBrush23,395
+
+CursorAttributes.hpp,86
+#define CURSORATTRIBUTES_H2,27
+class CursorAttributes6,78
+  short m_pair_pos 9,112
+
+Cursor.cpp,367
+int GetCurx(3,23
+int GetCury(8,77
+int GetMaxx(18,217
+int GetMaxy(23,271
+int GetPrompty(33,429
+int Boundsx(38,488
+int Boundsy(48,680
+void Movex(58,866
+void Movey(63,956
+void Move(68,1046
+void MoveLeft(73,1161
+void MoveRight(78,1232
+void MoveUp(83,1306
+void MoveDown(88,1377
+void MovePrompt(93,1450
+void MoveBrush(100,1633
+void MovePromptLine(106,1762
+
+Cursor.hpp,22
+#define CURSOR_H2,17
+
+Except.cpp,212
+Except::Except(Except3,23
+Except::Except(8,48
+void Except::setwhat(setwhat14,119
+std::string Except::what(what19,188
+Except Except::operator=(operator=24,242
+Except Except::operator+=(operator+=30,338
+
+Except.hpp,69
+#define EXCEPT_H2,17
+class Except7,124
+  std::string m_msg;10,148
+
+Frame.cpp,251
+Frame::Frame(Frame5,31
+bool Frame::CheckPos(CheckPos10,119
+void Frame::SetPoint(SetPoint15,248
+void Frame::SetPoint(SetPoint21,434
+void Frame::Setwh(Setwh26,623
+void Frame::DrawLine(DrawLine56,1497
+void Frame::DrawFrame(DrawFrame81,2020
+
+Frame.hpp,176
+#define FRAME_H2,16
+using Matrix 16,272
+using Character 23,596
+class Frame26,678
+  Matrix<Character> m_matrix;29,701
+  auto Getwh() const ->std::tuple<std::tuple39,1119
+
+InitExcept.cpp,40
+InitExcept::InitExcept(InitExcept3,27
+
+InitExcept.hpp,50
+#define INITEXCEPT_H2,21
+class InitExcept 8,172
+
+LogicExcept.cpp,43
+LogicExcept::LogicExcept(LogicExcept3,28
+
+LogicExcept.hpp,52
+#define LOGICEXCEPT_H2,22
+class LogicExcept 8,140
+
+main.cpp,118
+#define WINDOWS9,118
+#define WINDOWS11,147
+void Init(15,234
+void Loop(36,555
+int main(70,1242
+int main(101,1781
+
+makefile,525
+CXXFLAGS 1,0
+LIBS 2,77
+OBJECTS 4,103
+VPATH 6,270
+drawterm 8,283
+CursorAttributes.o:CursorAttributes.o11,332
+Cursor.o:Cursor.o14,426
+Except.o:Except.o17,479
+Frame.o:Frame.o20,532
+InitExcept.o:InitExcept.o24,689
+LogicExcept.o:LogicExcept.o27,765
+main.o:main.o30,844
+MovementHandle.o:MovementHandle.o35,1059
+NcursesOptions.o:NcursesOptions.o39,1161
+Offset.o:Offset.o43,1267
+Prompt.o:Prompt.o46,1331
+ScreenHandle.o:ScreenHandle.o51,1514
+Video.o:Video.o56,1726
+clean 60,1893
+.PHONY:.PHONY63,1984
+
+MovementHandle.cpp,26
+void MovementHandle(3,31
+
+MovementHandle.hpp,30
+#define MOVEMENTHANDLE_H2,25
+
+NcursesOptions.cpp,209
+void echo_on(3,31
+void echo_off(8,127
+void cbreak_on(13,228
+void cbreak_off(18,330
+void keypad_on(23,437
+void keypad_off(28,541
+void attribute_on(33,648
+void attribute_off(38,759
+void color_on(44,932
+
+NcursesOptions.hpp,30
+#define NCURSESOPTIONS_H2,25
+
+Offset.cpp,251
+void Offset::MoveLeft(MoveLeft3,23
+void Offset::MoveDown(MoveDown9,119
+void Offset::MoveUp(MoveUp15,206
+void Offset::MoveRight(MoveRight21,300
+std::size_t Offset::GetOffsetx(GetOffsetx27,388
+std::size_t Offset::GetOffsety(GetOffsety32,454
+
+Offset.hpp,129
+#define OFFSET_H2,17
+class Offset6,58
+  std::size_t m_offset_x 9,82
+  std::size_t m_offset_x {0}, m_offset_y{m_offset_y9,82
+
+Prompt.cpp,520
+void ClearPrompt(3,23
+void DrawPrompt(14,185
+void DrawPromptLine(22,315
+void DrawPromptBrush(28,417
+void DrawDimensions(47,877
+void DrawPromptMessage(61,1375
+int HandleDelete(79,1770
+std::string InputPrompt_Str(94,2273
+char InputPrompt_Char(130,3142
+using ll 150,3571
+using ull 151,3594
+template<typename Type,155,3723
+static Type InputPrompt_Conv(156,3762
+ll InputPrompt_LL(186,4472
+ull InputPrompt_ULL(194,4817
+std::string RangeToText(203,5199
+ll InputPrompt_LL(217,5440
+ull InputPrompt_ULL(226,5637
+
+Prompt.hpp,22
+#define PROMPT_H2,17
+
+ScreenHandle.cpp,273
+std::string GetCOLOR_PAIRSRange(3,29
+std::string GetCOLORSRange(14,192
+void CreatePair(28,536
+void ChangeColor(38,827
+  void divide_length(51,1190
+  char FormatLength(58,1398
+void ChangeVideoLength(86,2030
+void ChangeCanvasSize(103,2741
+void ScreenHandle(111,2961
+
+ScreenHandle.hpp,28
+#define SCREENHANDLE_H2,23
+
+Video.cpp,555
+void Video::SetVideo_Pos(SetVideo_Pos3,22
+std::size_t Video::GetVideo_Pos(GetVideo_Pos12,187
+void Video::NextFrame(NextFrame17,263
+void Video::PreviousFrame(PreviousFrame26,480
+void Video::SetVideoLength(SetVideoLength43,990
+std::size_t Video::GetVideoLength(GetVideoLength58,1351
+std::size_t Video::GetMaxVideoLength(GetMaxVideoLength63,1432
+void Video::Setwh(Setwh68,1520
+auto Video::Getwhl() const -> std::tuple<std::tuple84,1817
+void Video::SetFramePoint(SetFramePoint90,1985
+void Video::DrawCurrentFrame(DrawCurrentFrame98,2273
+
+Video.hpp,344
+#define VIDEO_H2,16
+class Video{Video6,55
+  std::size_t m_video_pos 9,78
+  std::vector<Frame> m_video;10,109
+  std::size_t m_offset_x 12,140
+  std::size_t m_offset_x {0}, m_offset_y 12,140
+  mutable bool m_screen_changed 13,186
+  auto Getwh()  const ->std::tuple<std::tuple27,653
+  auto Getwhl() const ->std::tuple<std::tuple28,715

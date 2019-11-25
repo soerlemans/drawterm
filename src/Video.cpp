@@ -9,7 +9,7 @@ void Video::SetVideo_Pos(std::size_t t_pos) noexcept
   m_screen_changed = true;
 }
 
-std::size_t Video::GetVideo_Pos() noexcept
+std::size_t Video::GetVideo_Pos() const noexcept
 {
   return m_video_pos;
 }
@@ -55,50 +55,48 @@ void Video::SetVideoLength(std::size_t t_length)
   Setwh(w, h);
 }
 
-std::size_t Video::GetVideoLength() noexcept
+std::size_t Video::GetVideoLength() const noexcept
 {
   return m_video.size();
 }
 
-std::size_t Video::GetMaxVideoLength() noexcept
+std::size_t Video::GetMaxVideoLength() const noexcept
 {
   return m_video.max_size();
 }
 
 void Video::Setwh(std::size_t t_w, std::size_t t_h)
 {
-  std::for_each(begin(m_video), end(m_video),
-		[&](Frame& t_frame)
-		{
-		  t_frame.Setwh(t_w, t_h);
-		});
-
+  for(Frame& frame : m_video){
+    frame.Setwh(t_w, t_h);
+  }
+  
   m_screen_changed = true;
 }
 
-auto Video::Getwh() -> std::tuple<std::size_t, std::size_t>
+auto Video::Getwh() const -> std::tuple<std::size_t, std::size_t>
 {
   return m_video.front().Getwh();
 }
 
-auto Video::Getwhl() -> std::tuple<std::size_t, std::size_t, std::size_t>
+auto Video::Getwhl() const -> std::tuple<std::size_t, std::size_t, std::size_t>
 {
   auto[w, h] = m_video.front().Getwh();
   return std::tuple(w, h, m_video.size());
 }
 
-void Video::SetFramePoint(const CursorAttributes& t_attributes)
+void Video::SetFramePoint(const CursorAttributes& t_attributes, const Offset& t_offset)
 {
   auto[x, y] = GetCurxy();
-  m_video[m_video_pos].SetPoint(x, y, t_attributes.GetBrush(), t_attributes.GetPair_Pos());
+  m_video[m_video_pos].SetPoint(x + t_offset.GetOffsetx(), y + t_offset.GetOffsety(), t_attributes.GetBrush(), t_attributes.GetPair_Pos());
 
   m_screen_changed = true;
 }
 
-void Video::DrawCurrentFrame(int t_screen_w, int t_screen_h)
+void Video::DrawCurrentFrame(const int t_screen_w, const int t_screen_h, const Offset t_offset) const 
 {
   if(m_screen_changed){
-    m_video[m_video_pos].DrawFrame(t_screen_w, t_screen_h, m_offset_x, m_offset_y);
+    m_video[m_video_pos].DrawFrame(t_screen_w, t_screen_h, t_offset.GetOffsetx(), t_offset.GetOffsety());
     m_screen_changed = false;
   }
 }

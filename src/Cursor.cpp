@@ -1,10 +1,5 @@
 #include "Cursor.hpp"
 
-/*getmax(y)|(x) returns the screen height or width
-  cause we only use stdscr so the getbeg(y)|(x) always
-  returns 0 no matter what (atleast in most instances)
-*/
-
 int GetCurx() noexcept
 {
   return getcurx(stdscr);

@@ -44,12 +44,14 @@ void DrawPromptBrush(const CursorAttributes& t_attributes)
   waddch(stdscr, t_attributes.GetBrush());
 }
 
-void DrawDimensions(std::size_t t_x, std::size_t t_w, std::size_t t_y, std::size_t t_h, std::size_t t_p, std::size_t t_l)
+void DrawDimensions(const Video& t_video, const Offset& t_offset)
 {
+  auto[width, height, length] = t_video.Getwhl();
+  
   std::stringstream ss;
-  ss << "X:" << t_x << "/" << t_w;
-  ss << " Y:" << t_y << "/" << t_h;
-  ss << " P:" << t_p << "/" << t_l;
+  ss << "X:" << GetCurx()  << "/" << width << ":" << t_offset.GetOffsetx();
+  ss << " Y:" << GetCury() << "/" << height << ":" << t_offset.GetOffsety();
+  ss << " P:" << t_video.GetVideo_Pos() << "/" << length;
 
   MovePromptLine();
   printw(ss.str().c_str());

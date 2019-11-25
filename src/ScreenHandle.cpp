@@ -3,7 +3,7 @@
 std::string GetCOLOR_PAIRSRange()
 {
   std::stringstream sstream;
-
+  
   sstream << "0-";
   sstream << COLOR_PAIRS;
   sstream << ":";
@@ -46,42 +46,43 @@ void ChangeColor()
   init_color(color_id, color_r, color_g, color_b);
 }
 
-//helper function for ChangeVideoLength()
-void divide_length(double& t_cur_length, std::size_t& t_max_length_formatted)
-{
-  t_max_length_formatted /= 60;
-  t_cur_length /=60;
-}
+namespace{
+  //helper function for ChangeVideoLength()
+  void divide_length(double& t_cur_length, std::size_t& t_max_length_formatted)
+  {
+    t_max_length_formatted /= 60;
+    t_cur_length /=60;
+  }
 
-//helper function for formatting the max and current length
-char FormatLength(double& t_cur_length, std::size_t& t_max_length_formatted) 
-{
-  char for_char {InputPrompt_Char("Insert format f(rames),s(econds),m(inutes),h(ours):", "fsmh")};
+  //helper function for formatting the max and current length
+  char FormatLength(double& t_cur_length, std::size_t& t_max_length_formatted) 
+  {
+    char for_char {InputPrompt_Char("Insert format f(rames),s(econds),m(inutes),h(ours):", "fsmh")};
   
-  switch(for_char)
-    {
-    case 'h':
-      divide_length(t_cur_length, t_max_length_formatted);
-      [[fallthrough]];
+    switch(for_char)
+      {
+      case 'h':
+	divide_length(t_cur_length, t_max_length_formatted);
+	[[fallthrough]];
       
-    case 'm':
-      divide_length(t_cur_length, t_max_length_formatted);
-      [[fallthrough]];
+      case 'm':
+	divide_length(t_cur_length, t_max_length_formatted);
+	[[fallthrough]];
       
-    case 's':
-      divide_length(t_cur_length, t_max_length_formatted);
-      break;
+      case 's':
+	divide_length(t_cur_length, t_max_length_formatted);
+	break;
 
-    case 'f':
-      break;
+      case 'f':
+	break;
 
-    default:
-      throw LogicExcept("unrecognised format for FormatLength() ");
-      break;
-    }
-  return for_char;
+      default:
+	throw LogicExcept("unrecognised format for FormatLength() ");
+	break;
+      }
+    return for_char;
+  }
 }
-
 void ChangeVideoLength(Video& t_video)
 {
   double cur_length{t_video. GetVideoLength()};
@@ -107,7 +108,7 @@ void ChangeCanvasSize(Video& t_video)
     t_video.Setwh(width, height);
 }
 
-void ScreenHandle(const int t_keypress, Video& t_video, CursorAttributes& t_attributes)
+void ScreenHandle(const int t_keypress, Video& t_video, CursorAttributes& t_attributes, Offset t_offset)
 {
   static bool sticky_enter {false};
   
@@ -154,6 +155,6 @@ void ScreenHandle(const int t_keypress, Video& t_video, CursorAttributes& t_attr
     }
 
   if(sticky_enter || t_keypress == 10){
-    t_video.SetFramePoint(t_attributes);
+    t_video.SetFramePoint(t_attributes, t_offset);
   }
 }

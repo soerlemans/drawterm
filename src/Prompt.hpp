@@ -13,8 +13,8 @@ extern void ClearPrompt() noexcept;
 extern void DrawPrompt(const std::string& t_text = ":") noexcept;
 extern void DrawPromptLine() noexcept;
 extern void DrawPromptBrush(const CursorAttributes& t_attributes);
-extern void DrawDimensions(std::size_t t_x, std::size_t t_w, std::size_t t_y, std::size_t t_h, std::size_t t_p, std::size_t t_l);
-
+extern void DrawDimensions(const Video& t_video, const Offset& t_offset);
+  
 extern void DrawPromptMessage(const std::string& t_text = "Press Enter", int t_conformation = 10);
 
 extern std::string InputPrompt_Str(const std::string& t_text = "prompt:", int t_input_length = 4);

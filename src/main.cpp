@@ -35,6 +35,8 @@ void Init()
 
 void Loop()
 {
+  Offset offset;
+
   CursorAttributes attributes;
   Video video;
   
@@ -43,8 +45,8 @@ void Loop()
 
   for(int keypress {0}; keypress != ERR && keypress != 'q'; keypress = getch())
     {
-      MovementHandle(keypress);
-      ScreenHandle(keypress, video, attributes);
+      MovementHandle(keypress, offset);
+      ScreenHandle(keypress, video, attributes, offset);
 
       auto[old_x, old_y] = GetCurxy();
 
@@ -52,10 +54,9 @@ void Loop()
       DrawPrompt();
       DrawPromptBrush(attributes);
 
-      auto[w, h, l] = video.Getwhl();
-      DrawDimensions(old_x,  w, old_y, h, video.GetVideo_Pos(), l);
+      DrawDimensions(video, offset);
 
-      video.DrawCurrentFrame(GetMaxx(), GetMaxy());
+      video.DrawCurrentFrame(GetMaxx(), GetMaxy(), offset);
       Move(old_x, old_y);
 
       wrefresh(stdscr);

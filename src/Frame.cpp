@@ -43,7 +43,7 @@ void Frame::Setwh(std::size_t t_w, std::size_t t_h) noexcept
 }
 
 //TODO make this so it never throws an out of range exception
-auto Frame::Getwh() ->std::tuple<std::size_t, std::size_t>
+auto Frame::Getwh() const ->std::tuple<std::size_t, std::size_t> 
 {
   return {m_matrix.front().size(), m_matrix.size()};
 }
@@ -53,18 +53,18 @@ std::vector<Character>& Frame::operator[](unsigned t_index)
     return m_matrix[t_index];
 }
 
-void Frame::DrawLine(const std::vector<Character>& t_line, std::size_t t_screen_w, std::size_t t_offset_x)
+void Frame::DrawLine(const std::vector<Character>& t_line, std::size_t t_screen_w, std::size_t t_offset_x) const
 {
   for(std::size_t x_pos {0}; x_pos < t_line.size(); x_pos++)
     {
       	Movex(x_pos);
-	const auto& point = t_line[x_pos];
+	const auto& point = t_line[t_offset_x + x_pos];
 	
       try{
 
 	attribute_on(COLOR_PAIR(point.second));
 	
-	if(t_line[x_pos].first != 0)
+	if(point.first != 0)
 	  addch(point.first);
 	else
 	  addch(' ');
@@ -78,14 +78,14 @@ void Frame::DrawLine(const std::vector<Character>& t_line, std::size_t t_screen_
     }
 }
 
-void Frame::DrawFrame(std::size_t t_screen_w, std::size_t t_screen_h, std::size_t t_offset_x, std::size_t t_offset_y)
+void Frame::DrawFrame(std::size_t t_screen_w, std::size_t t_screen_h, std::size_t t_offset_x, std::size_t t_offset_y) const
 {
   for(std::size_t y_pos {0}; y_pos < m_matrix.size(); y_pos++)
     {
       try{
 	Movey(y_pos);
       
-	DrawLine(m_matrix[y_pos], t_screen_w, t_offset_x);
+	DrawLine(m_matrix[t_offset_y + y_pos], t_screen_w, t_offset_x);
 	Movey(y_pos); //change this for later allow to specify the DrawFrame window* param TODO
 
    }catch(InitExcept& catched){

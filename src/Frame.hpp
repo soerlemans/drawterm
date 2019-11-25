@@ -2,6 +2,7 @@
 #define FRAME_H
 
 #include "CursorAttributes.hpp"
+#include "Offset.hpp"
 #include "NcursesOptions.hpp"
 #include "LogicExcept.hpp"
 #include "InitExcept.hpp"
@@ -35,11 +36,11 @@ public:
   void SetPoint(const std::size_t t_x, const std::size_t t_y, const char t_character, const int t_color_pair) noexcept;
 
   void Setwh(std::size_t t_w = 1, std::size_t t_h = 1) noexcept;
-  auto Getwh()    ->std::tuple<std::size_t, std::size_t>;
+  auto Getwh() const ->std::tuple<std::size_t, std::size_t>;
   
   std::vector<Character>& operator[](unsigned t_index);
-  void DrawLine(const std::vector<Character>& t_line, std::size_t t_screen_w, std::size_t t_offset_x);
-  void DrawFrame(std::size_t t_screen_w, std::size_t t_screen_h, std::size_t t_offset_x, std::size_t t_offset_y);
+  void DrawLine(const std::vector<Character>& t_line, std::size_t t_screen_w, std::size_t t_offset_x) const;
+  void DrawFrame(std::size_t t_screen_w, std::size_t t_screen_h, std::size_t t_offset_x, std::size_t t_offset_y) const;
 
 };
 
